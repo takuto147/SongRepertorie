@@ -1,0 +1,22 @@
+# Java
+*.class
+*.log
+*.jar
+*.war
+
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# Eclipse
+.classpath
+.project
+.settings/
+bin/
+
+# VSCode / Cursor
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db

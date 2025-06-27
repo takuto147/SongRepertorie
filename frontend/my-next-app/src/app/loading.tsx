@@ -1,4 +1,4 @@
 export default function Loading() {
-  return null
+  const test = "あああ"
+  return test
 }
-aaa

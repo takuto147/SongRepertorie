@@ -1,7 +1,7 @@
-package com.example.songapp.controller;
+package com.example.songrepertoire.controller;
 
-import com.example.songapp.model.Song;
-import com.example.songapp.service.SongService;
+import com.example.songrepertoire.model.Song;
+import com.example.songrepertoire.service.SongService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,15 +11,16 @@ import java.util.List;
 @CrossOrigin // フロント (localhost:5173 等) からアクセスしやすいように
 public class SongController {
 
-    private final SongService songService;
+  private final SongService songService;
 
-    public SongController(SongService songService) {
-        this.songService = songService;
-    }
+  // DI
+  public SongController(SongService songService) {
+    this.songService = songService;
+  }
 
-    // 一覧取得
-    @GetMapping
-    public List<Song> getAllSongs() {
-        return songService.findAll();
-    }
+  // 一覧取得
+  @GetMapping
+  public List<Song> getAllSongs() {
+    return songService.findAll();
+  }
 }

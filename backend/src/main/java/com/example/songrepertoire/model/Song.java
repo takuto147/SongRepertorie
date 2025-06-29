@@ -4,10 +4,13 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
+// getter,setter作成
 @Getter
 @Setter
+// 引数なし,全引数ありコンストラクタ作成
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class Song {
 
   @Id
@@ -20,5 +23,5 @@ public class Song {
   @Column(nullable = false)
   private String artist;
 
-  // まずは一覧だけなので最小限。あとで key, score など追加できます
+  // まずは最低限
 }

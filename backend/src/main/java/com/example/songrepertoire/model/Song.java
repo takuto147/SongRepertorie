@@ -4,13 +4,10 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-// getter,setter作成
 @Getter
 @Setter
-// 引数なし,全引数ありコンストラクタ作成
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class Song {
 
   @Id
@@ -23,5 +20,34 @@ public class Song {
   @Column(nullable = false)
   private String artist;
 
-  // まずは最低限
+  @Column
+  private Integer keyAdjustment; // 歌唱キー
+
+  @Column
+  private Integer score; // カラオケのスコア
+
+  @Column
+  private String category; // 任意のカテゴリ名
+
+  @Column
+  private String machine; // カラオケ機種名
+
+  @Column
+  private Boolean isFavorite;
+
+  @Column
+  private java.time.LocalDateTime createdAt;
+
+  @Column
+  private java.time.LocalDateTime updatedAt;
+
+  @PrePersist
+  protected void onCreate() {
+    createdAt = updatedAt = java.time.LocalDateTime.now();
+  }
+
+  @PreUpdate
+  protected void onUpdate() {
+    updatedAt = java.time.LocalDateTime.now();
+  }
 }

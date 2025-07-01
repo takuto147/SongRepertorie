@@ -10,7 +10,10 @@ import java.util.Optional;
 @Service
 public class UserService {
 
+  // コンストラクタインジェクション
   private final UserRepository userRepository;
+
+  // パスワードのハッシュ化
   private final BCryptPasswordEncoder passwordEncoder;
 
   public UserService(UserRepository userRepository) {
@@ -18,6 +21,7 @@ public class UserService {
     this.passwordEncoder = new BCryptPasswordEncoder();
   }
 
+  // ユーザー登録
   public User register(String email, String rawPassword, String displayName) {
     String hashed = passwordEncoder.encode(rawPassword);
     User user = new User();
@@ -27,6 +31,7 @@ public class UserService {
     return userRepository.save(user);
   }
 
+  // ユーザーログイン
   public Optional<User> login(String email, String rawPassword) {
     Optional<User> userOpt = userRepository.findByEmail(email);
     if (userOpt.isPresent()) {
@@ -38,6 +43,7 @@ public class UserService {
     return Optional.empty();
   }
 
+  // 指定したIDのユーザーを取得
   public Optional<User> findById(Long id) {
     return userRepository.findById(id);
   }

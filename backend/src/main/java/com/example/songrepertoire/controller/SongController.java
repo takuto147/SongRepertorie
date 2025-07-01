@@ -8,12 +8,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/songs")
-@CrossOrigin // フロント (localhost:5173 等) からアクセスしやすいように
+@CrossOrigin
 public class SongController {
 
+  // コンストラクタインジェクション
   private final SongService songService;
 
-  // DI
   public SongController(SongService songService) {
     this.songService = songService;
   }
@@ -22,5 +22,39 @@ public class SongController {
   @GetMapping
   public List<Song> getAllSongs() {
     return songService.findAll();
+  }
+
+  // 詳細取得
+  @GetMapping("/{id}")
+  public Song getSongById(@PathVariable Long id) {
+    return songService.findById(id).orElseThrow(() -> new RuntimeException("曲が見つかりません"));
+  }
+
+  // 登録
+  @PostMapping
+  public Song createSong(@RequestBody Song song) {
+    return songService.save(song);
+  }
+
+  // 更新
+  @PutMapping("/{id}")
+  public Song updateSong(@PathVariable Long id, @RequestBody Song updatedSong) {
+    Song song = songService.findById(id).orElseThrow(() -> new RuntimeException("曲が見つかりません"));
+
+    song.setTitle(updatedSong.getTitle());
+    song.setArtist(updatedSong.getArtist());
+    song.setKeyAdjustment(updatedSong.getKeyAdjustment());
+    song.setScore(updatedSong.getScore());
+    song.setCategory(updatedSong.getCategory());
+    song.setMachine(updatedSong.getMachine());
+    song.setIsFavorite(updatedSong.getIsFavorite());
+
+    return songService.save(song);
+  }
+
+  // 削除
+  @DeleteMapping("/{id}")
+  public void deleteSong(@PathVariable Long id) {
+    songService.deleteById(id);
   }
 }

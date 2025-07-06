@@ -7,9 +7,12 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Slider } from "@/components/ui/slider"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Save, X, Music } from "lucide-react"
 import type { Song } from "@/types"
 import { CATEGORIES, MACHINES, TAGS } from "@/constants"
 import { keyToString } from "@/utils/keyUtils"
+import type { Tag ,FormData} from "@/types";
+
 
 interface SongFormProps {
   song?: Song | null
@@ -19,7 +22,7 @@ interface SongFormProps {
 }
 
 export function SongForm({ song, onSave, onCancel, isEditing = false }: SongFormProps) {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     title: song?.title || "",
     artist: song?.artist || "",
     key: song?.key || 0,
@@ -29,7 +32,7 @@ export function SongForm({ song, onSave, onCancel, isEditing = false }: SongForm
     category: song?.category || "J-POP",
     machine: song?.machine || "DAM",
     isFavorite: song?.isFavorite || false,
-    tags: song?.tags || [],
+    tags: song?.tags?.map(t => t.name) || [],
   })
 
   const toggleTag = (tag: string) => {
@@ -44,7 +47,7 @@ export function SongForm({ song, onSave, onCancel, isEditing = false }: SongForm
       ...formData,
       score: formData.score ? Number.parseInt(formData.score) : null,
       jacket: formData.jacket || `/placeholder.svg?height=300&width=300&text=${encodeURIComponent(formData.title)}`,
-      lyrics: song?.lyrics || "",
+      tags: formData.tags.map((tag) => ({ name: tag } as Tag)),
     }
 
     if (isEditing && song) {
@@ -55,47 +58,55 @@ export function SongForm({ song, onSave, onCancel, isEditing = false }: SongForm
   }
 
   return (
-    <div className="space-y-4">
-      {/* ジャケット画像 */}
+    <div className="space-y-6">
+      {/* Album Art Preview */}
       <div className="text-center">
-        <div className="w-32 h-32 mx-auto rounded-lg overflow-hidden shadow-md">
+        <div className="w-32 h-32 mx-auto rounded-xl overflow-hidden border-2 border-sao-cyan-500/30 shadow-lg shadow-sao-cyan-500/20 relative group">
           <img
             src={formData.jacket || "/placeholder.svg"}
             alt={`${formData.title} ジャケット`}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-sao-cyan-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <Music className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 text-white opacity-0 group-hover:opacity-80 transition-opacity duration-300" />
+        </div>
+      </div>
+
+      {/* Basic Info */}
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <Label htmlFor="title" className="text-sao-cyan-300 text-sm font-medium tracking-wide">
+            SONG TITLE *
+          </Label>
+          <Input
+            id="title"
+            value={formData.title}
+            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+            className="sao-input h-11 text-sao-cyan-200"
+            placeholder="Enter song title..."
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="artist" className="text-sao-cyan-300 text-sm font-medium tracking-wide">
+            ARTIST *
+          </Label>
+          <Input
+            id="artist"
+            value={formData.artist}
+            onChange={(e) => setFormData({ ...formData, artist: e.target.value })}
+            className="sao-input h-11 text-sao-cyan-200"
+            placeholder="Enter artist name..."
           />
         </div>
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="title" className="text-amber-800">
-          曲名 *
+      {/* Key Slider */}
+      <div className="space-y-4">
+        <Label htmlFor="key" className="text-sao-cyan-300 text-sm font-medium tracking-wide">
+          KEY: {keyToString(formData.key)}
         </Label>
-        <Input
-          id="title"
-          value={formData.title}
-          onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-          className="bg-white border-amber-300 focus:border-amber-500"
-        />
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="artist" className="text-amber-800">
-          アーティスト *
-        </Label>
-        <Input
-          id="artist"
-          value={formData.artist}
-          onChange={(e) => setFormData({ ...formData, artist: e.target.value })}
-          className="bg-white border-amber-300 focus:border-amber-500"
-        />
-      </div>
-
-      <div className="space-y-3">
-        <Label htmlFor="key" className="text-amber-800">
-          キー: {keyToString(formData.key)}
-        </Label>
-        <div className="relative">
+        <div className="relative p-4 sao-panel border border-sao-cyan-500/20">
           <Slider
             id="key"
             min={-5}
@@ -105,61 +116,65 @@ export function SongForm({ song, onSave, onCancel, isEditing = false }: SongForm
             onValueChange={(value) => setFormData({ ...formData, key: value[0] })}
             className="w-full"
           />
-          <div className="flex justify-between mt-2 px-2">
+          <div className="flex justify-between mt-3 px-2">
             {[-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5].map((key) => (
               <div key={key} className="flex flex-col items-center">
-                <div className="w-0.5 h-2 bg-amber-400"></div>
-                <span className="text-xs text-amber-600 mt-1">{keyToString(key)}</span>
+                <div className="w-0.5 h-2 bg-sao-cyan-400/50"></div>
+                <span className="text-xs text-sao-cyan-400/70 mt-1">{keyToString(key)}</span>
               </div>
             ))}
           </div>
         </div>
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="score" className="text-amber-800">
-          点数
-        </Label>
-        <Input
-          id="score"
-          type="number"
-          value={formData.score}
-          onChange={(e) => setFormData({ ...formData, score: e.target.value })}
-          className="bg-white border-amber-300 focus:border-amber-500"
-          min="0"
-          max="100"
-        />
+      {/* Score and Categories */}
+      <div className="grid grid-cols-2 gap-4">
+        <div className="space-y-2">
+          <Label htmlFor="score" className="text-sao-cyan-300 text-sm font-medium tracking-wide">
+            SCORE
+          </Label>
+          <Input
+            id="score"
+            type="number"
+            value={formData.score}
+            onChange={(e) => setFormData({ ...formData, score: e.target.value })}
+            className="sao-input h-11 text-sao-cyan-200"
+            min="0"
+            max="100"
+            placeholder="0-100"
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="category" className="text-sao-cyan-300 text-sm font-medium tracking-wide">
+            CATEGORY
+          </Label>
+          <Select value={formData.category} onValueChange={(value) => setFormData({ ...formData, category: value })}>
+            <SelectTrigger className="sao-input h-11 text-sao-cyan-200">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent className="sao-panel border-sao-cyan-500/30">
+              {CATEGORIES.map((category) => (
+                <SelectItem key={category} value={category} className="text-sao-cyan-200 hover:bg-sao-cyan-500/20">
+                  {category}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="category" className="text-amber-800">
-          カテゴリ
-        </Label>
-        <Select value={formData.category} onValueChange={(value) => setFormData({ ...formData, category: value })}>
-          <SelectTrigger className="bg-white border-amber-300 focus:border-amber-500">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent className="bg-white border-amber-300">
-            {CATEGORIES.map((category) => (
-              <SelectItem key={category} value={category}>
-                {category}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="machine" className="text-amber-800">
-          機種
+        <Label htmlFor="machine" className="text-sao-cyan-300 text-sm font-medium tracking-wide">
+          MACHINE TYPE
         </Label>
         <Select value={formData.machine} onValueChange={(value) => setFormData({ ...formData, machine: value })}>
-          <SelectTrigger className="bg-white border-amber-300 focus:border-amber-500">
+          <SelectTrigger className="sao-input h-11 text-sao-cyan-200">
             <SelectValue />
           </SelectTrigger>
-          <SelectContent className="bg-white border-amber-300">
+          <SelectContent className="sao-panel border-sao-cyan-500/30">
             {MACHINES.map((machine) => (
-              <SelectItem key={machine} value={machine}>
+              <SelectItem key={machine} value={machine} className="text-sao-cyan-200 hover:bg-sao-cyan-500/20">
                 {machine}
               </SelectItem>
             ))}
@@ -167,9 +182,9 @@ export function SongForm({ song, onSave, onCancel, isEditing = false }: SongForm
         </Select>
       </div>
 
-      {/* タグ選択 */}
-      <div className="space-y-2">
-        <Label className="text-amber-800">タグ</Label>
+      {/* Tags */}
+      <div className="space-y-3">
+        <Label className="text-sao-cyan-300 text-sm font-medium tracking-wide">TAGS</Label>
         <div className="grid grid-cols-2 gap-2">
           {TAGS.map((tag) => (
             <Button
@@ -178,10 +193,11 @@ export function SongForm({ song, onSave, onCancel, isEditing = false }: SongForm
               variant={formData.tags.includes(tag) ? "default" : "outline"}
               size="sm"
               onClick={() => toggleTag(tag)}
-              className={`text-xs ${formData.tags.includes(tag)
-                  ? "bg-amber-500 hover:bg-amber-600 text-white"
-                  : "border-amber-300 text-amber-700 hover:bg-amber-100"
-                }`}
+              className={`text-xs h-9 transition-all duration-300 ${
+                formData.tags.includes(tag)
+                  ? "bg-gradient-to-r from-sao-cyan-600 to-sao-blue-600 text-white border-sao-cyan-400/50 shadow-lg shadow-sao-cyan-500/30"
+                  : "border-sao-cyan-500/30 text-sao-cyan-300 hover:bg-sao-cyan-500/20 hover:border-sao-cyan-400/50"
+              }`}
             >
               {tag}
             </Button>
@@ -189,30 +205,45 @@ export function SongForm({ song, onSave, onCancel, isEditing = false }: SongForm
         </div>
       </div>
 
+      {/* Memo */}
       <div className="space-y-2">
-        <Label htmlFor="memo" className="text-amber-800">
-          メモ
+        <Label htmlFor="memo" className="text-sao-cyan-300 text-sm font-medium tracking-wide">
+          MEMO
         </Label>
         <Textarea
           id="memo"
           value={formData.memo}
           onChange={(e) => setFormData({ ...formData, memo: e.target.value })}
-          className="bg-white border-amber-300 focus:border-amber-500"
+          className="sao-input min-h-[80px] text-sao-cyan-200 resize-none"
           rows={3}
+          placeholder="Add your notes here..."
         />
       </div>
 
-      <Button
-        onClick={handleSubmit}
-        className="w-full bg-green-500 hover:bg-green-600 text-white"
-        disabled={!formData.title || !formData.artist}
-      >
-        {isEditing ? "保存" : "楽曲を登録"}
-      </Button>
+      {/* Action Buttons */}
+      <div className="flex gap-3 pt-4">
+        <Button
+          onClick={handleSubmit}
+          disabled={!formData.title || !formData.artist}
+          className="flex-1 h-12 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white font-semibold border border-green-400/50 shadow-lg shadow-green-500/30 hover:shadow-xl hover:shadow-green-500/50 transition-all duration-300 hover:scale-[1.02] active:scale-95"
+        >
+          <div className="flex items-center gap-2">
+            <Save className="w-4 h-4" />
+            <span>{isEditing ? "UPDATE" : "REGISTER"}</span>
+          </div>
+        </Button>
 
-      <Button onClick={onCancel} variant="outline" className="w-full border-gray-300 text-gray-700 hover:bg-gray-100">
-        キャンセル
-      </Button>
+        <Button
+          onClick={onCancel}
+          variant="outline"
+          className="flex-1 h-12 border-sao-cyan-500/30 text-sao-cyan-300 hover:bg-sao-cyan-500/10 hover:border-sao-cyan-400/50 transition-all duration-300 bg-transparent"
+        >
+          <div className="flex items-center gap-2">
+            <X className="w-4 h-4" />
+            <span>CANCEL</span>
+          </div>
+        </Button>
+      </div>
     </div>
   )
 }

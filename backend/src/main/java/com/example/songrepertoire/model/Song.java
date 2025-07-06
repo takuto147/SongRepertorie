@@ -2,6 +2,7 @@ package com.example.songrepertoire.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -21,19 +22,27 @@ public class Song {
   private String artist;
 
   @Column
-  private Integer keyAdjustment; // 歌唱キー
+  private Integer keyAdjustment;
 
   @Column
-  private Integer score; // カラオケのスコア
+  private Integer score;
 
   @Column
-  private String category; // 任意のカテゴリ名
+  private String category;
 
   @Column
-  private String machine; // カラオケ機種名
+  private String machine;
 
   @Column
   private Boolean isFavorite;
+
+  @ManyToMany
+  @JoinTable(
+    name = "song_tag",
+    joinColumns = @JoinColumn(name = "song_id"),
+    inverseJoinColumns = @JoinColumn(name = "tag_id")
+  )
+  private List<Tag> tags;
 
   @Column
   private java.time.LocalDateTime createdAt;

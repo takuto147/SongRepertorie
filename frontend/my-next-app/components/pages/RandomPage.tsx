@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Shuffle, Star } from "lucide-react"
+import { Shuffle, Star, Zap, Activity, Target, Cpu } from "lucide-react"
 import type { Song } from "@/types"
 import { TAGS } from "@/constants"
 import { keyToString } from "@/utils/keyUtils"
@@ -18,8 +18,14 @@ interface RandomPageProps {
 export function RandomPage({ songs }: RandomPageProps) {
   const [randomTagFilter, setRandomTagFilter] = useState("all")
   const [randomSong, setRandomSong] = useState<Song | null>(null)
+  const [isGenerating, setIsGenerating] = useState(false)
 
-  const handleRandomSelect = () => {
+  const handleRandomSelect = async () => {
+    setIsGenerating(true)
+
+    // ランダム生成アニメーション
+    await new Promise((resolve) => setTimeout(resolve, 1500))
+
     let filteredSongs = songs
     if (randomTagFilter !== "all") {
       filteredSongs = songs.filter((song) => song.tags.includes(randomTagFilter))
@@ -29,99 +35,184 @@ export function RandomPage({ songs }: RandomPageProps) {
       const randomIndex = Math.floor(Math.random() * filteredSongs.length)
       setRandomSong(filteredSongs[randomIndex])
     }
+
+    setIsGenerating(false)
   }
 
   return (
-    <Card className="bg-white/90 backdrop-blur-sm border-amber-200 shadow-lg">
-      <CardHeader className="text-center">
-        <CardTitle className="flex items-center justify-center gap-2 text-amber-900">
-          <Shuffle className="w-5 h-5" />
-          ランダム選曲
-        </CardTitle>
-        <p className="text-amber-700">迷った時はお任せ！登録した楽曲からランダムに選びます</p>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        {/* タグフィルタ */}
-        <div className="space-y-2">
-          <Label className="text-amber-800">タグで絞り込み</Label>
-          <Select value={randomTagFilter} onValueChange={setRandomTagFilter}>
-            <SelectTrigger className="bg-white border-amber-300 focus:border-amber-500">
-              <SelectValue placeholder="タグを選択" />
-            </SelectTrigger>
-            <SelectContent className="bg-white border-amber-300">
-              <SelectItem value="all">すべて</SelectItem>
-              {TAGS.map((tag) => (
-                <SelectItem key={tag} value={tag}>
-                  {tag}
+    <div className="space-y-6">
+      {/* Random Generator Header */}
+      <Card className="sao-panel border-2 border-sao-cyan-500/40">
+        <CardHeader className="text-center pb-4">
+          <CardTitle className="flex items-center justify-center gap-3 text-sao-cyan-300 text-xl font-semibold">
+            <div className="p-2 rounded-full bg-sao-purple-500/20 border border-sao-purple-400/30 animate-glow-pulse">
+              <Cpu className="w-6 h-6 text-sao-purple-400" />
+            </div>
+            NEURAL SONG SELECTOR
+          </CardTitle>
+          <div className="flex items-center justify-center gap-2 text-sao-cyan-400/70 text-sm">
+            <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
+            <span>QUANTUM RANDOMIZATION ALGORITHM</span>
+          </div>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          {/* Filter Selection */}
+          <div className="space-y-3">
+            <Label className="text-sao-cyan-300 text-sm font-medium tracking-wide flex items-center gap-2">
+              <Target className="w-4 h-4" />
+              TARGET FILTER
+            </Label>
+            <Select value={randomTagFilter} onValueChange={setRandomTagFilter}>
+              <SelectTrigger className="sao-input h-11 text-sao-cyan-200">
+                <SelectValue placeholder="Select filter criteria" />
+              </SelectTrigger>
+              <SelectContent className="sao-panel border-sao-cyan-500/30">
+                <SelectItem value="all" className="text-sao-cyan-200 hover:bg-sao-cyan-500/20">
+                  All Songs (No Filter)
                 </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+                {TAGS.map((tag) => (
+                  <SelectItem key={tag} value={tag} className="text-sao-cyan-200 hover:bg-sao-cyan-500/20">
+                    {tag} Only
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
 
-        <Button
-          onClick={handleRandomSelect}
-          className="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-md"
-          size="lg"
-        >
-          <Shuffle className="w-4 h-4 mr-2" />
-          {randomTagFilter === "all" ? "ランダムに選ぶ" : `${randomTagFilter}からランダムに選ぶ`}
-        </Button>
+          {/* Generate Button */}
+          <Button
+            onClick={handleRandomSelect}
+            disabled={isGenerating || songs.length === 0}
+            className="w-full h-14 bg-gradient-to-r from-sao-purple-600 to-sao-blue-600 hover:from-sao-purple-500 hover:to-sao-blue-500 text-white font-semibold border border-sao-purple-400/50 shadow-lg shadow-sao-purple-500/30 hover:shadow-xl hover:shadow-sao-purple-500/50 transition-all duration-300 hover:scale-[1.02] active:scale-95 text-base"
+          >
+            {isGenerating ? (
+              <div className="flex items-center gap-3">
+                <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                <span>PROCESSING NEURAL PATTERNS...</span>
+              </div>
+            ) : (
+              <div className="flex items-center gap-3">
+                <Shuffle className="w-5 h-5" />
+                <span>
+                  {randomTagFilter === "all"
+                    ? "GENERATE RANDOM SELECTION"
+                    : `GENERATE FROM ${randomTagFilter.toUpperCase()}`}
+                </span>
+                <Zap className="w-5 h-5" />
+              </div>
+            )}
+          </Button>
 
-        {randomSong && (
-          <Card className="bg-gradient-to-r from-amber-100 to-orange-100 border-2 border-amber-300 shadow-md">
-            <CardContent className="p-4">
-              <div className="flex items-center gap-4">
-                <div className="w-20 h-20 rounded-lg overflow-hidden shadow-md flex-shrink-0">
-                  <img
-                    src={randomSong.jacket || "/placeholder.svg"}
-                    alt={`${randomSong.title} ジャケット`}
-                    className="w-full h-full object-cover"
-                  />
+          {/* Stats */}
+          <div className="grid grid-cols-2 gap-4 pt-4 border-t border-sao-cyan-500/20">
+            <div className="text-center">
+              <div className="text-lg font-bold text-sao-cyan-300">{songs.length}</div>
+              <div className="text-xs text-sao-cyan-400/70">TOTAL SONGS</div>
+            </div>
+            <div className="text-center">
+              <div className="text-lg font-bold text-sao-purple-300">
+                {randomTagFilter === "all"
+                  ? songs.length
+                  : songs.filter((song) => song.tags.includes(randomTagFilter)).length}
+              </div>
+              <div className="text-xs text-sao-cyan-400/70">FILTERED</div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Generated Song Result */}
+      {randomSong && (
+        <Card className="sao-panel border-2 border-sao-purple-500/40 animate-fade-in-up">
+          <CardHeader className="text-center pb-4">
+            <CardTitle className="flex items-center justify-center gap-2 text-sao-purple-300 text-lg">
+              <div className="w-3 h-3 bg-sao-purple-400 rounded-full animate-pulse"></div>
+              NEURAL SELECTION RESULT
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-6">
+              {/* Album Art */}
+              <div className="w-24 h-24 rounded-xl overflow-hidden border-2 border-sao-purple-500/30 shadow-lg shadow-sao-purple-500/20 flex-shrink-0 relative group">
+                <img
+                  src={randomSong.jacket || "/placeholder.svg"}
+                  alt={`${randomSong.title} ジャケット`}
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-br from-sao-purple-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </div>
+
+              {/* Song Info */}
+              <div className="flex-1 text-center space-y-3">
+                <div className="flex items-center justify-center gap-2">
+                  <h3 className="text-xl font-bold text-sao-cyan-300">{randomSong.title}</h3>
+                  {randomSong.isFavorite && <Star className="w-5 h-5 text-yellow-400 fill-current" />}
                 </div>
-                <div className="flex-1 text-center space-y-2">
-                  <div className="flex items-center justify-center gap-2">
-                    <h3 className="text-xl font-bold text-amber-900">{randomSong.title}</h3>
-                    {randomSong.isFavorite && <Star className="w-5 h-5 text-yellow-500 fill-current" />}
-                  </div>
-                  <p className="text-lg text-amber-700">{randomSong.artist}</p>
-                  <div className="flex justify-center gap-4 text-sm">
-                    <span className="text-amber-600">
-                      キー: <span className="text-amber-800 font-medium">{keyToString(randomSong.key)}</span>
+                <p className="text-lg text-sao-cyan-400">{randomSong.artist}</p>
+
+                {/* Stats */}
+                <div className="flex justify-center gap-6 text-sm">
+                  <div className="flex items-center gap-1">
+                    <Zap className="w-4 h-4 text-sao-cyan-400" />
+                    <span className="text-sao-cyan-300">
+                      Key: <span className="text-sao-cyan-200 font-medium">{keyToString(randomSong.key)}</span>
                     </span>
-                    {randomSong.score && (
-                      <span className="text-amber-600">
-                        点数: <span className="text-blue-700 font-medium">{randomSong.score}点</span>
-                      </span>
-                    )}
                   </div>
-                  {/* タグ表示 */}
-                  {randomSong.tags && randomSong.tags.length > 0 && (
-                    <div className="flex flex-wrap justify-center gap-1">
-                      {randomSong.tags.map((tag) => (
-                        <Badge
-                          key={tag}
-                          variant="outline"
-                          className={`text-xs ${
-                            tag === "得意曲"
-                              ? "border-green-400 text-green-700 bg-green-50"
-                              : tag === "練習中"
-                                ? "border-blue-400 text-blue-700 bg-blue-50"
-                                : "border-amber-400 text-amber-700"
-                          }`}
-                        >
-                          {tag}
-                        </Badge>
-                      ))}
+                  {randomSong.score && (
+                    <div className="flex items-center gap-1">
+                      <Activity className="w-4 h-4 text-sao-blue-400" />
+                      <span className="text-sao-cyan-300">
+                        Score: <span className="text-sao-blue-300 font-medium">{randomSong.score}</span>
+                      </span>
                     </div>
                   )}
-                  {randomSong.memo && <p className="text-sm text-amber-600 mt-2">{randomSong.memo}</p>}
                 </div>
+
+                {/* Tags */}
+                {randomSong.tags && randomSong.tags.length > 0 && (
+                  <div className="flex flex-wrap justify-center gap-2">
+                    {randomSong.tags.map((tag) => (
+                      <Badge
+                        key={tag}
+                        variant="outline"
+                        className={`text-xs transition-colors duration-300 ${
+                          tag === "得意曲"
+                            ? "border-green-400/50 text-green-300 bg-green-500/10"
+                            : tag === "練習中"
+                              ? "border-blue-400/50 text-blue-300 bg-blue-500/10"
+                              : "border-sao-cyan-400/50 text-sao-cyan-300 bg-sao-cyan-500/10"
+                        }`}
+                      >
+                        {tag}
+                      </Badge>
+                    ))}
+                  </div>
+                )}
+
+                {/* Memo */}
+                {randomSong.memo && (
+                  <div className="mt-4 p-3 sao-panel border border-sao-cyan-500/20">
+                    <p className="text-sm text-sao-cyan-400/80 italic">"{randomSong.memo}"</p>
+                  </div>
+                )}
               </div>
-            </CardContent>
-          </Card>
-        )}
-      </CardContent>
-    </Card>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Empty State */}
+      {songs.length === 0 && (
+        <Card className="sao-panel border border-sao-cyan-500/20">
+          <CardContent className="p-8 text-center">
+            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-sao-cyan-500/10 flex items-center justify-center">
+              <Shuffle className="w-8 h-8 text-sao-cyan-400/50" />
+            </div>
+            <h3 className="text-lg font-semibold text-sao-cyan-300 mb-2">No Songs Available</h3>
+            <p className="text-sao-cyan-400/70 text-sm">Add some songs to your library to use the random selector</p>
+          </CardContent>
+        </Card>
+      )}
+    </div>
   )
 }

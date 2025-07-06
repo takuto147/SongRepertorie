@@ -1,4 +1,3 @@
-//定数
 export const CATEGORIES = ["J-POP", "邦楽", "洋楽", "アニソン", "K-POP", "ボカロ", "Vtuber"] as const
 
 export const MACHINES = ["DAM", "JOYSOUND", "その他"] as const

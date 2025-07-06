@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Search, Plus, SortAsc } from "lucide-react"
+import { Search, Plus, SortAsc, Filter, Zap } from "lucide-react"
 import { SongCard } from "@/components/SongCard"
 import { SongForm } from "@/components/SongForm"
 import type { Song } from "@/types"
@@ -56,56 +56,81 @@ export function SongListPage({ songs, onSongSelect, onToggleFavorite, onAddSong 
   }
 
   return (
-    <div className="space-y-4">
-      {/* 検索・フィルタ */}
-      <div className="space-y-3">
+    <div className="space-y-6">
+      {/* Search & Filter Panel */}
+      <div className="sao-panel p-4 space-y-4 border border-sao-cyan-500/30">
+        {/* Header */}
+        <div className="flex items-center gap-2 pb-2 border-b border-sao-cyan-500/20">
+          <Filter className="w-4 h-4 text-sao-cyan-400" />
+          <span className="text-sm font-medium text-sao-cyan-300 tracking-wide">SEARCH & FILTER</span>
+        </div>
+
+        {/* Search Input */}
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-amber-600 w-4 h-4" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-sao-cyan-400 w-4 h-4" />
           <Input
-            placeholder="曲名・アーティストで検索"
+            placeholder="Search songs or artists..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10 bg-white/80 backdrop-blur-sm border-amber-300 focus:border-amber-500"
+            className="pl-10 sao-input h-11 text-sao-cyan-200 placeholder-sao-cyan-400/50"
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-2">
-          <Select value={sortBy} onValueChange={setSortBy}>
-            <SelectTrigger className="bg-white/80 backdrop-blur-sm border-amber-300 focus:border-amber-500">
-              <SortAsc className="w-4 h-4 mr-2" />
-              <SelectValue placeholder="並び順" />
-            </SelectTrigger>
-            <SelectContent className="bg-white border-amber-300">
-              <SelectItem value="title">曲名順</SelectItem>
-              <SelectItem value="artist">アーティスト順</SelectItem>
-              <SelectItem value="score">点数順</SelectItem>
-            </SelectContent>
-          </Select>
-
-          <Select value={filterCategory} onValueChange={setFilterCategory}>
-            <SelectTrigger className="bg-white/80 backdrop-blur-sm border-amber-300 focus:border-amber-500">
-              <SelectValue placeholder="カテゴリ" />
-            </SelectTrigger>
-            <SelectContent className="bg-white border-amber-300">
-              <SelectItem value="all">すべて</SelectItem>
-              {CATEGORIES.map((category) => (
-                <SelectItem key={category} value={category}>
-                  {category}
+        {/* Filter Controls */}
+        <div className="grid grid-cols-2 gap-3">
+          <div className="space-y-2">
+            <label className="text-xs text-sao-cyan-400/80 font-medium tracking-wide">SORT BY</label>
+            <Select value={sortBy} onValueChange={setSortBy}>
+              <SelectTrigger className="sao-input h-10 text-sao-cyan-200 border-sao-cyan-500/30">
+                <SortAsc className="w-4 h-4 mr-2 text-sao-cyan-400" />
+                <SelectValue placeholder="Sort order" />
+              </SelectTrigger>
+              <SelectContent className="sao-panel border-sao-cyan-500/30">
+                <SelectItem value="title" className="text-sao-cyan-200 hover:bg-sao-cyan-500/20">
+                  Title
                 </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+                <SelectItem value="artist" className="text-sao-cyan-200 hover:bg-sao-cyan-500/20">
+                  Artist
+                </SelectItem>
+                <SelectItem value="score" className="text-sao-cyan-200 hover:bg-sao-cyan-500/20">
+                  Score
+                </SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-xs text-sao-cyan-400/80 font-medium tracking-wide">CATEGORY</label>
+            <Select value={filterCategory} onValueChange={setFilterCategory}>
+              <SelectTrigger className="sao-input h-10 text-sao-cyan-200 border-sao-cyan-500/30">
+                <SelectValue placeholder="Category" />
+              </SelectTrigger>
+              <SelectContent className="sao-panel border-sao-cyan-500/30">
+                <SelectItem value="all" className="text-sao-cyan-200 hover:bg-sao-cyan-500/20">
+                  All Categories
+                </SelectItem>
+                {CATEGORIES.map((category) => (
+                  <SelectItem key={category} value={category} className="text-sao-cyan-200 hover:bg-sao-cyan-500/20">
+                    {category}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
-        <div className="w-full">
+        <div className="space-y-2">
+          <label className="text-xs text-sao-cyan-400/80 font-medium tracking-wide">TAG FILTER</label>
           <Select value={filterTag} onValueChange={setFilterTag}>
-            <SelectTrigger className="bg-white/80 backdrop-blur-sm border-amber-300 focus:border-amber-500">
-              <SelectValue placeholder="タグ" />
+            <SelectTrigger className="sao-input h-10 text-sao-cyan-200 border-sao-cyan-500/30">
+              <SelectValue placeholder="Filter by tag" />
             </SelectTrigger>
-            <SelectContent className="bg-white border-amber-300">
-              <SelectItem value="all">すべて</SelectItem>
+            <SelectContent className="sao-panel border-sao-cyan-500/30">
+              <SelectItem value="all" className="text-sao-cyan-200 hover:bg-sao-cyan-500/20">
+                All Tags
+              </SelectItem>
               {TAGS.map((tag) => (
-                <SelectItem key={tag} value={tag}>
+                <SelectItem key={tag} value={tag} className="text-sao-cyan-200 hover:bg-sao-cyan-500/20">
                   {tag}
                 </SelectItem>
               ))}
@@ -114,27 +139,73 @@ export function SongListPage({ songs, onSongSelect, onToggleFavorite, onAddSong 
         </div>
       </div>
 
-      {/* 楽曲追加ボタン */}
+      {/* Add Song Button */}
       <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
         <DialogTrigger asChild>
-          <Button className="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-md">
-            <Plus className="w-4 h-4 mr-2" />
-            楽曲を追加
+          <Button className="w-full h-12 bg-gradient-to-r from-sao-cyan-600 to-sao-blue-600 hover:from-sao-cyan-500 hover:to-sao-blue-500 text-white font-semibold border border-sao-cyan-400/50 shadow-lg shadow-sao-cyan-500/30 hover:shadow-xl hover:shadow-sao-cyan-500/50 transition-all duration-300 hover:scale-[1.02] active:scale-95">
+            <div className="flex items-center gap-3">
+              <div className="p-1 rounded-full bg-white/20">
+                <Plus className="w-4 h-4" />
+              </div>
+              <span className="tracking-wide">ADD NEW SONG</span>
+              <Zap className="w-4 h-4" />
+            </div>
           </Button>
         </DialogTrigger>
-        <DialogContent className="max-w-sm mx-auto bg-white border-amber-300 max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-sm mx-auto sao-panel border-2 border-sao-cyan-500/40 max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle className="text-amber-900">新しい楽曲を追加</DialogTitle>
+            <DialogTitle className="text-sao-cyan-300 text-lg font-semibold tracking-wide">
+              REGISTER NEW SONG
+            </DialogTitle>
+            <div className="h-px bg-gradient-to-r from-transparent via-sao-cyan-500 to-transparent mt-2"></div>
           </DialogHeader>
           <SongForm onSave={handleAddSong} onCancel={() => setIsAddDialogOpen(false)} />
         </DialogContent>
       </Dialog>
 
-      {/* 楽曲リスト */}
-      <div className="space-y-3">
-        {filteredAndSortedSongs.map((song) => (
-          <SongCard key={song.id} song={song} onToggleFavorite={onToggleFavorite} onClick={() => onSongSelect(song)} />
-        ))}
+      {/* Results Counter */}
+      <div className="flex items-center justify-between text-sm">
+        <div className="flex items-center gap-2 text-sao-cyan-400/80">
+          <div className="w-2 h-2 bg-sao-cyan-400 rounded-full animate-pulse"></div>
+          <span>{filteredAndSortedSongs.length} songs found</span>
+        </div>
+        {(searchTerm || filterCategory !== "all" || filterTag !== "all") && (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => {
+              setSearchTerm("")
+              setFilterCategory("all")
+              setFilterTag("all")
+            }}
+            className="text-sao-cyan-400/60 hover:text-sao-cyan-300 hover:bg-sao-cyan-500/10 text-xs"
+          >
+            Clear Filters
+          </Button>
+        )}
+      </div>
+
+      {/* Song List */}
+      <div className="space-y-4">
+        {filteredAndSortedSongs.length > 0 ? (
+          filteredAndSortedSongs.map((song, index) => (
+            <div key={song.id} className="animate-fade-in-up" style={{ animationDelay: `${index * 0.1}s` }}>
+              <SongCard song={song} onToggleFavorite={onToggleFavorite} onClick={() => onSongSelect(song)} />
+            </div>
+          ))
+        ) : (
+          <div className="sao-panel p-8 text-center border border-sao-cyan-500/20">
+            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-sao-cyan-500/10 flex items-center justify-center">
+              <Search className="w-8 h-8 text-sao-cyan-400/50" />
+            </div>
+            <h3 className="text-lg font-semibold text-sao-cyan-300 mb-2">No Songs Found</h3>
+            <p className="text-sao-cyan-400/70 text-sm">
+              {searchTerm || filterCategory !== "all" || filterTag !== "all"
+                ? "Try adjusting your search criteria"
+                : "Add your first song to get started"}
+            </p>
+          </div>
+        )}
       </div>
     </div>
   )

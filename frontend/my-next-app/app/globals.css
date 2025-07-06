@@ -1,0 +1,142 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 13% 9%;
+    --foreground: 220 13% 91%;
+    --card: 220 13% 9%;
+    --card-foreground: 220 13% 91%;
+    --popover: 220 13% 9%;
+    --popover-foreground: 220 13% 91%;
+    --primary: 180 100% 45%;
+    --primary-foreground: 220 13% 9%;
+    --secondary: 220 13% 15%;
+    --secondary-foreground: 220 13% 91%;
+    --muted: 220 13% 15%;
+    --muted-foreground: 220 13% 60%;
+    --accent: 280 100% 50%;
+    --accent-foreground: 220 13% 91%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 220 13% 91%;
+    --border: 220 13% 20%;
+    --input: 220 13% 20%;
+    --ring: 180 100% 45%;
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: "Inter", "Noto Sans JP", sans-serif;
+  }
+}
+
+/* SAO風カスタムスタイル */
+@layer components {
+  .sao-panel {
+    @apply bg-gradient-to-br from-sao-dark-500/90 to-sao-dark-600/90 
+           border border-sao-cyan-500/30 backdrop-blur-md
+           shadow-lg shadow-sao-cyan-500/20;
+  }
+
+  .sao-button {
+    @apply bg-gradient-to-r from-sao-cyan-600 to-sao-blue-600 
+           hover:from-sao-cyan-500 hover:to-sao-blue-500
+           text-white font-semibold px-6 py-3 rounded-lg
+           border border-sao-cyan-400/50
+           shadow-lg shadow-sao-cyan-500/30
+           transition-all duration-300 ease-out
+           hover:shadow-xl hover:shadow-sao-cyan-500/50
+           hover:scale-105 active:scale-95;
+  }
+
+  .sao-input {
+    @apply bg-sao-dark-600/50 border border-sao-cyan-500/30 
+           text-sao-cyan-100 placeholder-sao-cyan-300/50
+           focus:border-sao-cyan-400 focus:ring-2 focus:ring-sao-cyan-500/30
+           rounded-lg px-4 py-3 backdrop-blur-sm
+           transition-all duration-300;
+  }
+
+  .sao-card {
+    @apply bg-gradient-to-br from-sao-dark-500/80 to-sao-dark-600/80
+           border border-sao-cyan-500/20 rounded-xl
+           backdrop-blur-md shadow-xl shadow-sao-cyan-500/10
+           hover:border-sao-cyan-400/40 hover:shadow-sao-cyan-500/20
+           transition-all duration-500 ease-out;
+  }
+
+  .sao-glow {
+    @apply shadow-lg shadow-sao-cyan-500/30;
+  }
+
+  .sao-text-glow {
+    text-shadow: 0 0 10px rgba(0, 230, 230, 0.5);
+  }
+
+  .cyber-grid {
+    background-image: linear-gradient(rgba(0, 230, 230, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 230, 230, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  .scan-line {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .scan-line::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00e6e6, transparent);
+    animation: scan-line 3s linear infinite;
+    z-index: 10;
+  }
+}
+
+/* スクロールバーのカスタマイズ */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(26, 26, 46, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #00e6e6, #0073e6);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #1affff, #1a8cff);
+}
+
+/* グローバルアニメーション */
+.animate-matrix-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.matrix-char {
+  position: absolute;
+  color: rgba(0, 230, 230, 0.3);
+  font-family: "Courier New", monospace;
+  font-size: 14px;
+  animation: matrix-rain 3s linear infinite;
+}

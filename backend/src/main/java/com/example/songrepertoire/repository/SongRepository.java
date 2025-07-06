@@ -19,4 +19,8 @@ public interface SongRepository extends JpaRepository<Song, Long> {
   // スコアの平均値を取得
   @Query("SELECT AVG(s.score) FROM Song s WHERE s.score IS NOT NULL")
   Double findAverageScore();
+
+  // // お気に入りの曲を取得
+  // @Query("SELECT COUNT(s) FROM Song s WHERE s.isFavorite = 1")
+  // Long countFavoriteSongs();
 }

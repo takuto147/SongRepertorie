@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Search, Plus, Music } from "lucide-react"
+import { Search, Plus, Music, Trash2, Clock, TrendingUp, Zap, Database } from "lucide-react"
 import type { SearchResult } from "@/types"
 import { POPULAR_SONGS } from "@/constants"
 
@@ -44,139 +44,172 @@ export function SearchPage({
   }
 
   return (
-    <Card className="bg-white/90 backdrop-blur-sm border-amber-200 shadow-lg">
-      <CardHeader className="text-center">
-        <CardTitle className="flex items-center justify-center gap-2 text-amber-900">
-          <Search className="w-5 h-5" />
-          楽曲検索
-        </CardTitle>
-        <p className="text-amber-700">楽曲データベースから検索して簡単登録</p>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        {/* 検索フォーム */}
-        <div className="space-y-3">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-amber-600 w-4 h-4" />
-            <Input
-              placeholder="楽曲名またはアーティスト名で検索"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 bg-white border-amber-300 focus:border-amber-500"
-              onKeyPress={(e) => e.key === "Enter" && handleSearch()}
-            />
+    <div className="space-y-6">
+      {/* Search Header */}
+      <Card className="sao-panel border-2 border-sao-cyan-500/40">
+        <CardHeader className="text-center pb-4">
+          <CardTitle className="flex items-center justify-center gap-3 text-sao-cyan-300 text-xl font-semibold">
+            <div className="p-2 rounded-full bg-sao-cyan-500/20 border border-sao-cyan-400/30">
+              <Database className="w-6 h-6 text-sao-cyan-400" />
+            </div>
+            SONG DATABASE SEARCH
+          </CardTitle>
+          <div className="flex items-center justify-center gap-2 text-sao-cyan-400/70 text-sm">
+            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+            <span>NEURAL NETWORK CONNECTION ACTIVE</span>
           </div>
-          <Button
-            onClick={handleSearch}
-            disabled={isSearching || !searchQuery.trim()}
-            className="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-md"
-          >
-            {isSearching ? (
-              <>
-                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
-                検索中...
-              </>
-            ) : (
-              <>
-                <Search className="w-4 h-4 mr-2" />
-                検索
-              </>
-            )}
-          </Button>
-        </div>
-
-        {/* 検索結果 */}
-        {searchResults.length > 0 && (
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {/* Search Input */}
           <div className="space-y-3">
-            <h3 className="text-lg font-semibold text-amber-900">検索結果</h3>
-            <div className="space-y-2 max-h-96 overflow-y-auto">
-              {searchResults.map((result, index) => (
-                <Card key={index} className="bg-white border-amber-200 hover:border-amber-300 transition-colors">
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-lg overflow-hidden shadow-md flex-shrink-0 bg-amber-100 flex items-center justify-center">
-                        {result.artwork ? (
-                          <img
-                            src={result.artwork || "/placeholder.svg"}
-                            alt={`${result.title} ジャケット`}
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <Music className="w-6 h-6 text-amber-600" />
-                        )}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h4 className="font-semibold text-amber-900 truncate">{result.title}</h4>
-                        <p className="text-amber-700 truncate">{result.artist}</p>
-                        {result.album && <p className="text-sm text-amber-600 truncate">{result.album}</p>}
-                        {result.releaseYear && <p className="text-xs text-amber-500">{result.releaseYear}年</p>}
-                      </div>
-                      <Button
-                        onClick={() => onAddFromSearch(result)}
-                        size="sm"
-                        className="bg-green-500 hover:bg-green-600 text-white"
-                      >
-                        <Plus className="w-4 h-4 mr-1" />
-                        追加
-                      </Button>
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-sao-cyan-400 w-5 h-5" />
+              <Input
+                placeholder="Search neural database for songs..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-12 sao-input h-12 text-sao-cyan-200 text-base"
+                onKeyPress={(e) => e.key === "Enter" && handleSearch()}
+              />
+            </div>
+            <Button
+              onClick={handleSearch}
+              disabled={isSearching || !searchQuery.trim()}
+              className="w-full h-12 bg-gradient-to-r from-sao-cyan-600 to-sao-blue-600 hover:from-sao-cyan-500 hover:to-sao-blue-500 text-white font-semibold border border-sao-cyan-400/50 shadow-lg shadow-sao-cyan-500/30 hover:shadow-xl hover:shadow-sao-cyan-500/50 transition-all duration-300 hover:scale-[1.02] active:scale-95"
+            >
+              {isSearching ? (
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  <span>SCANNING DATABASE...</span>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <Search className="w-5 h-5" />
+                  <span>INITIATE SEARCH</span>
+                  <Zap className="w-4 h-4" />
+                </div>
+              )}
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Search Results */}
+      {searchResults.length > 0 && (
+        <div className="space-y-4">
+          <div className="flex items-center gap-2 text-sao-cyan-300">
+            <div className="w-1 h-6 bg-gradient-to-b from-sao-cyan-400 to-sao-blue-400"></div>
+            <h3 className="text-lg font-semibold tracking-wide">SEARCH RESULTS</h3>
+            <div className="flex-1 h-px bg-gradient-to-r from-sao-cyan-500/50 to-transparent"></div>
+          </div>
+          <div className="space-y-3 max-h-96 overflow-y-auto">
+            {searchResults.map((result, index) => (
+              <Card key={index} className="sao-card hover:scale-[1.02] transition-all duration-300 group">
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-4">
+                    <div className="w-14 h-14 rounded-lg overflow-hidden border border-sao-cyan-500/30 flex-shrink-0 bg-sao-dark-600/50 flex items-center justify-center relative group">
+                      {result.artwork ? (
+                        <img
+                          src={result.artwork || "/placeholder.svg"}
+                          alt={`${result.title} ジャケット`}
+                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                        />
+                      ) : (
+                        <Music className="w-6 h-6 text-sao-cyan-400/60" />
+                      )}
+                      <div className="absolute inset-0 bg-gradient-to-br from-sao-cyan-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-semibold text-sao-cyan-300 truncate group-hover:text-sao-cyan-200 transition-colors duration-300">
+                        {result.title}
+                      </h4>
+                      <p className="text-sao-cyan-400/80 truncate">{result.artist}</p>
+                      {result.album && <p className="text-sm text-sao-cyan-500/70 truncate">{result.album}</p>}
+                      {result.releaseYear && <p className="text-xs text-sao-cyan-500/60">{result.releaseYear}</p>}
+                    </div>
+                    <Button
+                      onClick={() => onAddFromSearch(result)}
+                      size="sm"
+                      className="bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white border border-green-400/50 shadow-lg shadow-green-500/30 hover:shadow-xl hover:shadow-green-500/50 transition-all duration-300 hover:scale-105"
+                    >
+                      <Plus className="w-4 h-4 mr-1" />
+                      ADD
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
           </div>
-        )}
+        </div>
+      )}
 
-        {/* 検索履歴 */}
-        {searchHistory.length > 0 && searchResults.length === 0 && (
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-amber-900">検索履歴</h3>
+      {/* Search History */}
+      {searchHistory.length > 0 && searchResults.length === 0 && (
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2 text-sao-cyan-300">
+              <div className="w-1 h-6 bg-gradient-to-b from-sao-cyan-400 to-sao-blue-400"></div>
+              <h3 className="text-lg font-semibold tracking-wide flex items-center gap-2">
+                <Clock className="w-5 h-5" />
+                SEARCH HISTORY
+              </h3>
+            </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={onClearHistory}
+              className="text-sao-cyan-400/60 hover:text-red-400 hover:bg-red-500/10 border border-transparent hover:border-red-400/30 transition-all duration-300"
+            >
+              <Trash2 className="w-4 h-4 mr-1" />
+              CLEAR
+            </Button>
+          </div>
+          <div className="space-y-2">
+            {searchHistory.slice(0, 5).map((query, index) => (
               <Button
-                variant="ghost"
+                key={index}
+                variant="outline"
                 size="sm"
-                onClick={onClearHistory}
-                className="text-amber-600 hover:text-amber-800"
+                onClick={() => handleHistorySearch(query)}
+                className="w-full justify-start text-left border-sao-cyan-500/30 text-sao-cyan-300 hover:bg-sao-cyan-500/20 hover:border-sao-cyan-400/50 h-10 transition-all duration-300"
               >
-                クリア
+                <Search className="w-4 h-4 mr-3 text-sao-cyan-400" />
+                {query}
               </Button>
-            </div>
-            <div className="space-y-2">
-              {searchHistory.slice(0, 5).map((query, index) => (
-                <Button
-                  key={index}
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handleHistorySearch(query)}
-                  className="w-full justify-start text-left border-amber-300 text-amber-700 hover:bg-amber-50"
-                >
-                  <Search className="w-4 h-4 mr-2" />
-                  {query}
-                </Button>
-              ))}
-            </div>
+            ))}
           </div>
-        )}
+        </div>
+      )}
 
-        {/* 人気楽曲・おすすめ */}
-        {searchResults.length === 0 && (
-          <div className="space-y-3">
-            <h3 className="text-lg font-semibold text-amber-900">人気楽曲</h3>
-            <div className="grid grid-cols-2 gap-2">
-              {POPULAR_SONGS.map((song, index) => (
-                <Button
-                  key={index}
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handlePopularSearch(song)}
-                  className="text-xs border-amber-300 text-amber-700 hover:bg-amber-50 h-auto py-2 px-3"
-                >
-                  {song}
-                </Button>
-              ))}
-            </div>
+      {/* Popular Songs */}
+      {searchResults.length === 0 && (
+        <div className="space-y-4">
+          <div className="flex items-center gap-2 text-sao-cyan-300">
+            <div className="w-1 h-6 bg-gradient-to-b from-sao-cyan-400 to-sao-blue-400"></div>
+            <h3 className="text-lg font-semibold tracking-wide flex items-center gap-2">
+              <TrendingUp className="w-5 h-5" />
+              TRENDING SONGS
+            </h3>
+            <div className="flex-1 h-px bg-gradient-to-r from-sao-cyan-500/50 to-transparent"></div>
           </div>
-        )}
-      </CardContent>
-    </Card>
+          <div className="grid grid-cols-2 gap-3">
+            {POPULAR_SONGS.map((song, index) => (
+              <Button
+                key={index}
+                variant="outline"
+                size="sm"
+                onClick={() => handlePopularSearch(song)}
+                className="text-xs border-sao-cyan-500/30 text-sao-cyan-300 hover:bg-sao-cyan-500/20 hover:border-sao-cyan-400/50 h-auto py-3 px-3 transition-all duration-300 hover:scale-105"
+              >
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-sao-cyan-400 rounded-full animate-pulse"></div>
+                  <span className="truncate">{song}</span>
+                </div>
+              </Button>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
   )
 }

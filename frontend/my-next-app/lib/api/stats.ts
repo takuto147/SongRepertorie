@@ -1,11 +1,6 @@
-import axios from 'axios';
-import { SongCountByCategory } from '@/types';
+import { api } from '@/lib/api/axios';
 
-const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
-});
-
-export const getSongCountByCategory = async (): Promise<SongCountByCategory[]> => {
-  const res = await api.get<SongCountByCategory[]>('/api/stats/song-count-by-category');
+export const getSongCountByCategory = async (): Promise<Record<string, number>> => {
+  const res = await api.get<Record<string, number>>('/api/stats/song-count-by-category');
   return res.data;
 };

@@ -11,8 +11,8 @@ interface StatsPageProps {
 
 export function StatsPage({ songs }: StatsPageProps) {
   const favoriteCount = songs.filter((s) => s.isFavorite).length
-  const expertCount = songs.filter((s) => s.tags.includes("得意曲")).length
-  const practiceCount = songs.filter((s) => s.tags.includes("練習中")).length
+  const expertCount = songs.filter((s) => s.tags.some((tag) => tag.name === "得意曲")).length
+  const practiceCount = songs.filter((s) => s.tags.some((tag) => tag.name === "練習中")).length
   const averageScore =
     songs.filter((s) => s.score).length > 0
       ? Math.round(

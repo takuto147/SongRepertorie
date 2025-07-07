@@ -1,4 +1,16 @@
-import type { Song } from "@/types"
+import type { Song, Tag } from "@/types"
+
+// サンプルタグデータ
+export const sampleTags: Tag[] = [
+  { id: 1, name: "友達ウケ" },
+  { id: 2, name: "ひとり用" },
+  { id: 3, name: "年上ウケ" },
+  { id: 4, name: "異性ウケ" },
+  { id: 5, name: "点数狙い" },
+  { id: 6, name: "盛り上げ" },
+  { id: 7, name: "練習中" },
+  { id: 8, name: "得意曲" },
+]
 
 export const sampleSongs: Song[] = [
   {
@@ -13,7 +25,11 @@ export const sampleSongs: Song[] = [
     category: "邦楽",
     machine: "DAM",
     isFavorite: true,
-    tags: ["年上ウケ", "ひとり用", "得意曲"],
+    tags: [
+      { id: 3, name: "年上ウケ" },
+      { id: 2, name: "ひとり用" },
+      { id: 8, name: "得意曲" },
+    ],
   },
   {
     id: 2,
@@ -27,7 +43,11 @@ export const sampleSongs: Song[] = [
     category: "アニソン",
     machine: "JOYSOUND",
     isFavorite: false,
-    tags: ["友達ウケ", "盛り上げ", "練習中"],
+    tags: [
+      { id: 1, name: "友達ウケ" },
+      { id: 6, name: "盛り上げ" },
+      { id: 7, name: "練習中" },
+    ],
   },
   {
     id: 3,
@@ -41,7 +61,11 @@ export const sampleSongs: Song[] = [
     category: "J-POP",
     machine: "DAM",
     isFavorite: true,
-    tags: ["異性ウケ", "年上ウケ", "練習中"],
+    tags: [
+      { id: 4, name: "異性ウケ" },
+      { id: 3, name: "年上ウケ" },
+      { id: 7, name: "練習中" },
+    ],
   },
   {
     id: 4,
@@ -55,6 +79,10 @@ export const sampleSongs: Song[] = [
     category: "邦楽",
     machine: "JOYSOUND",
     isFavorite: false,
-    tags: ["異性ウケ", "点数狙い", "得意曲"],
+    tags: [
+      { id: 4, name: "異性ウケ" },
+      { id: 5, name: "点数狙い" },
+      { id: 8, name: "得意曲" },
+    ],
   },
 ]

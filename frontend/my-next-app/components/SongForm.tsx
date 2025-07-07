@@ -11,8 +11,6 @@ import { Save, X, Music } from "lucide-react"
 import type { Song } from "@/types"
 import { CATEGORIES, MACHINES, TAGS } from "@/constants"
 import { keyToString } from "@/utils/keyUtils"
-import type { Tag ,FormData} from "@/types";
-
 
 interface SongFormProps {
   song?: Song | null
@@ -22,7 +20,7 @@ interface SongFormProps {
 }
 
 export function SongForm({ song, onSave, onCancel, isEditing = false }: SongFormProps) {
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState({
     title: song?.title || "",
     artist: song?.artist || "",
     key: song?.key || 0,
@@ -32,7 +30,7 @@ export function SongForm({ song, onSave, onCancel, isEditing = false }: SongForm
     category: song?.category || "J-POP",
     machine: song?.machine || "DAM",
     isFavorite: song?.isFavorite || false,
-    tags: song?.tags?.map(t => t.name) || [],
+    tags: song?.tags?.map((tag) => tag.name) || [],
   })
 
   const toggleTag = (tag: string) => {
@@ -47,7 +45,8 @@ export function SongForm({ song, onSave, onCancel, isEditing = false }: SongForm
       ...formData,
       score: formData.score ? Number.parseInt(formData.score) : null,
       jacket: formData.jacket || `/placeholder.svg?height=300&width=300&text=${encodeURIComponent(formData.title)}`,
-      tags: formData.tags.map((tag) => ({ name: tag } as Tag)),
+      // tagsは文字列配列からTag配列に変換（実際のバックエンド実装時に調整）
+      tags: formData.tags.map((tagName, index) => ({ id: index + 1, name: tagName })),
     }
 
     if (isEditing && song) {
@@ -75,27 +74,27 @@ export function SongForm({ song, onSave, onCancel, isEditing = false }: SongForm
       {/* Basic Info */}
       <div className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="title" className="text-sao-cyan-300 text-sm font-medium tracking-wide">
+          <Label htmlFor="title" className="text-black text-sm font-semibold tracking-wide drop-shadow-lg">
             SONG TITLE *
           </Label>
           <Input
             id="title"
             value={formData.title}
             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-            className="sao-input h-11 text-sao-cyan-200"
+            className="sao-input h-11 text-white bg-sao-dark-600/80 border-sao-cyan-400/50 placeholder:text-sao-cyan-300/60"
             placeholder="Enter song title..."
           />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="artist" className="text-sao-cyan-300 text-sm font-medium tracking-wide">
+          <Label htmlFor="artist" className="text-black text-sm font-semibold tracking-wide drop-shadow-lg">
             ARTIST *
           </Label>
           <Input
             id="artist"
             value={formData.artist}
             onChange={(e) => setFormData({ ...formData, artist: e.target.value })}
-            className="sao-input h-11 text-sao-cyan-200"
+            className="sao-input h-11 text-white bg-sao-dark-600/80 border-sao-cyan-400/50 placeholder:text-sao-cyan-300/60"
             placeholder="Enter artist name..."
           />
         </div>
@@ -103,7 +102,7 @@ export function SongForm({ song, onSave, onCancel, isEditing = false }: SongForm
 
       {/* Key Slider */}
       <div className="space-y-4">
-        <Label htmlFor="key" className="text-sao-cyan-300 text-sm font-medium tracking-wide">
+        <Label htmlFor="key" className="text-black text-sm font-semibold tracking-wide drop-shadow-lg">
           KEY: {keyToString(formData.key)}
         </Label>
         <div className="relative p-4 sao-panel border border-sao-cyan-500/20">
@@ -130,7 +129,7 @@ export function SongForm({ song, onSave, onCancel, isEditing = false }: SongForm
       {/* Score and Categories */}
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label htmlFor="score" className="text-sao-cyan-300 text-sm font-medium tracking-wide">
+          <Label htmlFor="score" className="text-black text-sm font-semibold tracking-wide drop-shadow-lg">
             SCORE
           </Label>
           <Input
@@ -138,7 +137,7 @@ export function SongForm({ song, onSave, onCancel, isEditing = false }: SongForm
             type="number"
             value={formData.score}
             onChange={(e) => setFormData({ ...formData, score: e.target.value })}
-            className="sao-input h-11 text-sao-cyan-200"
+            className="sao-input h-11 text-white bg-sao-dark-600/80 border-sao-cyan-400/50 placeholder:text-sao-cyan-300/60"
             min="0"
             max="100"
             placeholder="0-100"
@@ -146,11 +145,11 @@ export function SongForm({ song, onSave, onCancel, isEditing = false }: SongForm
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="category" className="text-sao-cyan-300 text-sm font-medium tracking-wide">
+          <Label htmlFor="category" className="text-black text-sm font-semibold tracking-wide drop-shadow-lg">
             CATEGORY
           </Label>
           <Select value={formData.category} onValueChange={(value) => setFormData({ ...formData, category: value })}>
-            <SelectTrigger className="sao-input h-11 text-sao-cyan-200">
+            <SelectTrigger className="sao-input h-11 text-white bg-sao-dark-600/80 border-sao-cyan-400/50">
               <SelectValue />
             </SelectTrigger>
             <SelectContent className="sao-panel border-sao-cyan-500/30">
@@ -165,11 +164,11 @@ export function SongForm({ song, onSave, onCancel, isEditing = false }: SongForm
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="machine" className="text-sao-cyan-300 text-sm font-medium tracking-wide">
+        <Label htmlFor="machine" className="text-black text-sm font-semibold tracking-wide drop-shadow-lg">
           MACHINE TYPE
         </Label>
         <Select value={formData.machine} onValueChange={(value) => setFormData({ ...formData, machine: value })}>
-          <SelectTrigger className="sao-input h-11 text-sao-cyan-200">
+          <SelectTrigger className="sao-input h-11 text-white bg-sao-dark-600/80 border-sao-cyan-400/50">
             <SelectValue />
           </SelectTrigger>
           <SelectContent className="sao-panel border-sao-cyan-500/30">
@@ -184,7 +183,7 @@ export function SongForm({ song, onSave, onCancel, isEditing = false }: SongForm
 
       {/* Tags */}
       <div className="space-y-3">
-        <Label className="text-sao-cyan-300 text-sm font-medium tracking-wide">TAGS</Label>
+        <Label className="text-black text-sm font-semibold tracking-wide drop-shadow-lg">TAGS</Label>
         <div className="grid grid-cols-2 gap-2">
           {TAGS.map((tag) => (
             <Button
@@ -207,14 +206,14 @@ export function SongForm({ song, onSave, onCancel, isEditing = false }: SongForm
 
       {/* Memo */}
       <div className="space-y-2">
-        <Label htmlFor="memo" className="text-sao-cyan-300 text-sm font-medium tracking-wide">
+        <Label htmlFor="memo" className="text-black text-sm font-semibold tracking-wide drop-shadow-lg">
           MEMO
         </Label>
         <Textarea
           id="memo"
           value={formData.memo}
           onChange={(e) => setFormData({ ...formData, memo: e.target.value })}
-          className="sao-input min-h-[80px] text-sao-cyan-200 resize-none"
+          className="sao-input min-h-[80px] text-white bg-sao-dark-600/80 border-sao-cyan-400/50 placeholder:text-sao-cyan-300/60 resize-none"
           rows={3}
           placeholder="Add your notes here..."
         />

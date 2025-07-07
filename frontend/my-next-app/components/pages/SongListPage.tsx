@@ -34,7 +34,7 @@ export function SongListPage({ songs, onSongSelect, onToggleFavorite, onAddSong 
         song.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         song.artist.toLowerCase().includes(searchTerm.toLowerCase())
       const matchesCategory = filterCategory === "all" || song.category === filterCategory
-      const matchesTag = filterTag === "all" || song.tags.includes(filterTag)
+      const matchesTag = filterTag === "all" || song.tags.some((tag) => tag.name === filterTag)
       return matchesSearch && matchesCategory && matchesTag
     })
     .sort((a, b) => {

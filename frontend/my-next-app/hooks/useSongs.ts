@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { Song, SearchResult, SongRequest } from "@/types";
+import type { Song, SearchResult, SongRequest, Tag } from "@/types";
 import { getSongs, createSong, updateSongApi, deleteSongApi } from "@/lib/api/songs";
 
 export function useSongs() {
@@ -39,14 +39,43 @@ export function useSongs() {
     setSongs(songs.map((s) => (s.id === songId ? updated : s)));
   };
 
-  const addSong = async (newSong: SongRequest) => {
-    const created = await createSong(newSong);
-    console.log("newsongの内容確認:", newSong);
-    setSongs([...songs, created]);
+
+const addSong = async (newSong: Song) => {
+  const tagIds = newSong.tags.map((tag) => tag.id);
+
+  const request: SongRequest = {
+    title: newSong.title,
+    artist: newSong.artist,
+    key: newSong.key,
+    score: newSong.score,
+    category: newSong.category,
+    machine: newSong.machine,
+    isFavorite: newSong.isFavorite,
+    tagIds,
   };
 
-  const updateSong = async (songId: number, updatedSong: SongRequest) => {
-    const updated = await updateSongApi(songId, updatedSong);
+  const created = await createSong(request);
+  console.log("送信内容の確認:", request);
+  setSongs((prev) => [...prev, created]);
+};
+
+
+  const updateSong = async (songId: number, updatedSong: Song) => {
+    const tagIds = updatedSong.tags?.map((tag: Tag) => tag.id) || [];
+
+    const request: SongRequest = {
+      title: updatedSong.title,
+      artist: updatedSong.artist,
+      key: updatedSong.key,
+      score: updatedSong.score,
+      category: updatedSong.category,
+      machine: updatedSong.machine,
+      isFavorite: updatedSong.isFavorite,
+      tagIds,
+    };
+    
+    const updated = await updateSongApi(songId, request);
+      console.log("送信内容の確認_update:", updated);
     setSongs(songs.map((s) => (s.id === songId ? updated : s)));
   };
 

@@ -85,17 +85,17 @@ export function SongDetailPage({
                   <div className="flex flex-wrap gap-2">
                     {displaySong.tags.map((tag) => (
                       <Badge
-                        key={tag}
+                        key={tag.id}
                         variant="outline"
                         className={`${
-                          tag === "得意曲"
+                          tag.name === "得意曲"
                             ? "border-green-400 text-green-700 bg-green-50"
-                            : tag === "練習中"
+                            : tag.name === "練習中"
                               ? "border-blue-400 text-blue-700 bg-blue-50"
                               : "border-amber-400 text-amber-700"
                         }`}
                       >
-                        {tag}
+                        {tag.name}
                       </Badge>
                     ))}
                   </div>

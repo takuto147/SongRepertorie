@@ -23,12 +23,12 @@ export function RandomPage({ songs }: RandomPageProps) {
   const handleRandomSelect = async () => {
     setIsGenerating(true)
 
-    // ランダム生成アニメーション
+    // SAO風のランダム生成アニメーション
     await new Promise((resolve) => setTimeout(resolve, 1500))
 
     let filteredSongs = songs
     if (randomTagFilter !== "all") {
-      filteredSongs = songs.filter((song) => song.tags.includes(randomTagFilter))
+      filteredSongs = songs.filter((song) => song.tags.some((tag) => tag.name === randomTagFilter))
     }
 
     if (filteredSongs.length > 0) {
@@ -113,7 +113,7 @@ export function RandomPage({ songs }: RandomPageProps) {
               <div className="text-lg font-bold text-sao-purple-300">
                 {randomTagFilter === "all"
                   ? songs.length
-                  : songs.filter((song) => song.tags.includes(randomTagFilter)).length}
+                  : songs.filter((song) => song.tags.some((tag) => tag.name === randomTagFilter)).length}
               </div>
               <div className="text-xs text-sao-cyan-400/70">FILTERED</div>
             </div>
@@ -173,17 +173,17 @@ export function RandomPage({ songs }: RandomPageProps) {
                   <div className="flex flex-wrap justify-center gap-2">
                     {randomSong.tags.map((tag) => (
                       <Badge
-                        key={tag}
+                        key={tag.name}
                         variant="outline"
                         className={`text-xs transition-colors duration-300 ${
-                          tag === "得意曲"
+                          tag.name === "得意曲"
                             ? "border-green-400/50 text-green-300 bg-green-500/10"
-                            : tag === "練習中"
+                            : tag.name === "練習中"
                               ? "border-blue-400/50 text-blue-300 bg-blue-500/10"
                               : "border-sao-cyan-400/50 text-sao-cyan-300 bg-sao-cyan-500/10"
                         }`}
                       >
-                        {tag}
+                        {tag.name}
                       </Badge>
                     ))}
                   </div>

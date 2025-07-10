@@ -1,10 +1,9 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useEffect } from "react"
-import { Tabs, TabsContent } from "@/components/ui/tabs"
 import { LoginPage } from "@/components/pages/LoginPage"
+import { SignupPage } from "@/components/pages/SignupPage"
 import { SongListPage } from "@/components/pages/SongListPage"
 import { SearchPage } from "@/components/pages/SearchPage"
 import { RandomPage } from "@/components/pages/RandomPage"
@@ -13,10 +12,17 @@ import { SongDetailPage } from "@/components/pages/SongDetailPage"
 import { Header } from "@/components/Header"
 import { BottomNavigation } from "@/components/BottomNavigation"
 import { useSongs } from "@/hooks/useSongs"
-import type { Song, SearchResult, ViewType } from "@/types"
+import type { Song, SearchResult } from "@/types"
+
+type AuthView = "login" | "signup"
 
 export default function KaraokeApp() {
-  const [currentView, setCurrentView] = useState<ViewType>("login")
+  // 認証状態管理
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [authView, setAuthView] = useState<AuthView>("login")
+
+  // アプリケーション状態
+  const [activeTab, setActiveTab] = useState("songs")
   const [selectedSong, setSelectedSong] = useState<Song | null>(null)
   const [isEditMode, setIsEditMode] = useState(false)
   const [editingSong, setEditingSong] = useState<Song | null>(null)
@@ -35,9 +41,9 @@ export default function KaraokeApp() {
     clearSearchHistory,
   } = useSongs()
 
-  // Matrix background effect for main app
+  // Matrix background effect
   useEffect(() => {
-    if (currentView !== "login") {
+    if (isLoggedIn) {
       const chars = "01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン"
       const newMatrixChars = Array.from({ length: 30 }, (_, i) => ({
         id: i,
@@ -47,13 +53,42 @@ export default function KaraokeApp() {
       }))
       setMatrixChars(newMatrixChars)
     }
-  }, [currentView])
+  }, [isLoggedIn])
 
-  const handleSongSelect = (song: Song) => {
-    setSelectedSong(song)
-    setCurrentView("songDetail")
+  // 認証処理
+  const handleLogin = () => {
+    setIsLoggedIn(true)
+    setAuthView("login")
   }
 
+  const handleSignup = () => {
+    setIsLoggedIn(true)
+    setAuthView("login")
+  }
+
+  const handleLogout = () => {
+    setIsLoggedIn(false)
+    setAuthView("login")
+    setActiveTab("songs")
+    setSelectedSong(null)
+    setIsEditMode(false)
+    setEditingSong(null)
+  }
+
+  const handleGoToSignup = () => {
+    setAuthView("signup")
+  }
+
+  const handleBackToLogin = () => {
+    setAuthView("login")
+  }
+
+  // 楽曲選択処理
+  const handleSongSelect = (song: Song) => {
+    setSelectedSong(song)
+  }
+
+  // お気に入り切り替え処理
   const handleToggleFavorite = (songId: number, event: React.MouseEvent) => {
     event.stopPropagation()
     toggleFavorite(songId)
@@ -63,6 +98,7 @@ export default function KaraokeApp() {
     }
   }
 
+  // 編集処理
   const handleEdit = (song: Song) => {
     setEditingSong({
       ...song,
@@ -71,8 +107,8 @@ export default function KaraokeApp() {
     setIsEditMode(true)
   }
 
+  // 保存処理
   const handleSave = (updatedSong: Song) => {
-    const songId = updatedSong.id
     const songToSave = {
       ...updatedSong,
       score:
@@ -82,35 +118,39 @@ export default function KaraokeApp() {
             : null
           : updatedSong.score,
     }
-    
-    updateSong(songId,songToSave)
+    updateSong(songToSave)
     setSelectedSong(songToSave)
     setIsEditMode(false)
     setEditingSong(null)
   }
 
+  // 新規保存処理
   const handleSaveNew = (newSong: Omit<Song, "id">) => {
     addSong(newSong)
     setIsEditMode(false)
     setEditingSong(null)
-    setCurrentView("songList")
+    setSelectedSong(null)
+    setActiveTab("songs")
   }
 
+  // 削除処理
   const handleDelete = (songId: number) => {
     deleteSong(songId)
-    setCurrentView("songList")
     setSelectedSong(null)
+    setActiveTab("songs")
   }
 
+  // キャンセル処理
   const handleCancel = () => {
     setIsEditMode(false)
     setEditingSong(null)
 
     if (!selectedSong) {
-      setCurrentView("songList")
+      setActiveTab("songs")
     }
   }
 
+  // 検索から追加処理
   const handleAddFromSearch = (result: SearchResult) => {
     const songFromSearch = {
       title: result.title,
@@ -128,26 +168,37 @@ export default function KaraokeApp() {
     setSelectedSong(null)
     setEditingSong(songFromSearch)
     setIsEditMode(true)
-    setCurrentView("songDetail")
   }
 
+  // 戻る処理
   const handleBack = () => {
     if (selectedSong) {
-      setCurrentView("songList")
+      setSelectedSong(null)
     } else {
-      setCurrentView("songList")
+      setSelectedSong(null)
       setIsEditMode(false)
       setEditingSong(null)
     }
   }
 
-  // Login screen
-  if (currentView === "login") {
-    return <LoginPage onLogin={() => setCurrentView("songList")} />
+  // タブ変更処理
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab)
+    setSelectedSong(null)
+    setIsEditMode(false)
+    setEditingSong(null)
   }
 
-  // Song detail/edit screen
-  if (currentView === "songDetail") {
+  // 認証画面
+  if (!isLoggedIn) {
+    if (authView === "signup") {
+      return <SignupPage onSignup={handleSignup} onBackToLogin={handleBackToLogin} />
+    }
+    return <LoginPage onLogin={handleLogin} onGoToSignup={handleGoToSignup} />
+  }
+
+  // 楽曲詳細・編集画面
+  if (selectedSong || isEditMode) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-sao-dark-900 via-sao-dark-800 to-sao-dark-700 relative overflow-hidden">
         {/* Matrix Background */}
@@ -169,16 +220,12 @@ export default function KaraokeApp() {
         {/* Cyber Grid Background */}
         <div className="absolute inset-0 cyber-grid opacity-20"></div>
 
-        {(isEditMode || selectedSong) && (
-          <Header
-            title={selectedSong ? "SONG DETAILS" : "ADD NEW SONG"}
-            onBack={handleBack}
-            song={selectedSong}
-            onToggleFavorite={
-              selectedSong ? (songId) => handleToggleFavorite(songId, {} as React.MouseEvent) : undefined
-            }
-          />
-        )}
+        <Header
+          title={selectedSong ? "SONG DETAILS" : "ADD NEW SONG"}
+          onBack={handleBack}
+          song={selectedSong}
+          onToggleFavorite={selectedSong ? (songId) => handleToggleFavorite(songId, {} as React.MouseEvent) : undefined}
+        />
         <SongDetailPage
           song={selectedSong}
           isEditMode={isEditMode}
@@ -193,6 +240,39 @@ export default function KaraokeApp() {
     )
   }
 
+  // タブコンテンツのレンダリング
+  const renderTabContent = () => {
+    switch (activeTab) {
+      case "songs":
+        return (
+          <SongListPage
+            songs={songs}
+            onSongSelect={handleSongSelect}
+            onToggleFavorite={handleToggleFavorite}
+            onAddSong={addSong}
+          />
+        )
+      case "search":
+        return (
+          <SearchPage
+            searchResults={searchResults}
+            isSearching={isSearching}
+            searchHistory={searchHistory}
+            onSearch={searchSongs}
+            onAddFromSearch={handleAddFromSearch}
+            onClearHistory={clearSearchHistory}
+          />
+        )
+      case "random":
+        return <RandomPage songs={songs} />
+      case "stats":
+        return <StatsPage songs={songs} />
+      default:
+        return null
+    }
+  }
+
+  // メインアプリケーション画面
   return (
     <div className="min-h-screen bg-gradient-to-br from-sao-dark-900 via-sao-dark-800 to-sao-dark-700 relative overflow-hidden">
       {/* Matrix Background */}
@@ -214,42 +294,22 @@ export default function KaraokeApp() {
       {/* Cyber Grid Background */}
       <div className="absolute inset-0 cyber-grid opacity-20"></div>
 
-      <div className="relative z-10 max-w-md mx-auto">
-        <Tabs defaultValue="songs" className="w-full">
-          <div className="pb-24">
-            <div className="p-4 space-y-4">
-              <TabsContent value="songs" className="space-y-4 mt-0">
-                <SongListPage
-                  songs={songs}
-                  onSongSelect={handleSongSelect}
-                  onToggleFavorite={handleToggleFavorite}
-                  onAddSong={addSong}
-                />
-              </TabsContent>
-
-              <TabsContent value="search" className="space-y-4 mt-0">
-                <SearchPage
-                  searchResults={searchResults}
-                  isSearching={isSearching}
-                  searchHistory={searchHistory}
-                  onSearch={searchSongs}
-                  onAddFromSearch={handleAddFromSearch}
-                  onClearHistory={clearSearchHistory}
-                />
-              </TabsContent>
-
-              <TabsContent value="random" className="space-y-4 mt-0">
-                <RandomPage songs={songs} />
-              </TabsContent>
-
-              <TabsContent value="stats" className="space-y-4 mt-0">
-                <StatsPage songs={songs} />
-              </TabsContent>
-            </div>
+      {/* Fixed width container */}
+      <div
+        className="relative z-10 mx-auto"
+        style={{
+          width: "100%",
+          maxWidth: "448px",
+          minHeight: "100vh",
+        }}
+      >
+        <div className="pb-24">
+          <div className="p-4 space-y-4" style={{ width: "100%" }}>
+            {renderTabContent()}
           </div>
+        </div>
 
-          <BottomNavigation />
-        </Tabs>
+        <BottomNavigation activeTab={activeTab} onTabChange={handleTabChange} />
       </div>
     </div>
   )

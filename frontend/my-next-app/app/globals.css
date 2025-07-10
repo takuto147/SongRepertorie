@@ -57,11 +57,12 @@
   }
 
   .sao-input {
-    @apply bg-sao-dark-600/50 border border-sao-cyan-500/30 
-           text-sao-cyan-100 placeholder-sao-cyan-300/50
-           focus:border-sao-cyan-400 focus:ring-2 focus:ring-sao-cyan-500/30
+    @apply bg-sao-dark-600/80 border border-sao-cyan-400/50 
+           text-white placeholder-sao-cyan-300/60
+           focus:border-sao-cyan-300 focus:ring-2 focus:ring-sao-cyan-400/30
            rounded-lg px-4 py-3 backdrop-blur-sm
-           transition-all duration-300;
+           transition-all duration-300
+           shadow-lg shadow-sao-dark-900/50;
   }
 
   .sao-card {

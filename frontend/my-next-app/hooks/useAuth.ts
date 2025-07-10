@@ -1,78 +1,73 @@
-"use client";
+import { useState } from 'react';
+import { User, RegisterRequest, LoginRequest } from '@/types';
+import { registerUser, loginUser, getUserById } from '@/lib/api/user';
 
-import { useState } from "react";
-import { api } from "@/lib/api/axios";
-import type { User } from "@/types";
-
-export const useAuth = () => {
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+export function useAuth() {
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const register = async (
-    email: string,
-    password: string,
-    displayName: string
-  ) => {
-    setIsLoading(true);
+  // ユーザー登録
+  const register = async (req: RegisterRequest) => {
+    setLoading(true);
     setError(null);
     try {
-      const res = await api.post<User>("/api/auth/register", null, {
-        params: { email, password, displayName },
-      });
-      setCurrentUser(res.data);
-      return res.data;
-    } catch (err: any) {
-      setError(err.response?.data?.message || "登録に失敗しました");
-      throw err;
+      const newUser = await registerUser(req);
+      setUser(newUser);
+      return newUser;
+    } catch (e: any) {
+      setError(e.message || '登録に失敗しました');
+      throw e;
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
-  const login = async (email: string, password: string) => {
-    setIsLoading(true);
+  // ログイン
+  const login = async (req: LoginRequest) => {
+    setLoading(true);
     setError(null);
     try {
-      const res = await api.post<User>("/api/auth/login", null, {
-        params: { email, password },
-      });
-      setCurrentUser(res.data);
-      return res.data;
-    } catch (err: any) {
-      setError(err.response?.data?.message || "ログインに失敗しました");
-      throw err;
+      const loginUserData = await loginUser(req);
+      setUser(loginUserData);
+      return loginUserData;
+    } catch (e: any) {
+      setError(e.message || 'ログインに失敗しました');
+      throw e;
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
-  const fetchUser = async (id: number) => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const res = await api.get<User>(`/api/auth/me/${id}`);
-      setCurrentUser(res.data);
-      return res.data;
-    } catch (err: any) {
-      setError(err.response?.data?.message || "ユーザー取得に失敗しました");
-      throw err;
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
+  // ログアウト
   const logout = () => {
-    setCurrentUser(null);
+    setUser(null);
+  };
+
+  // ユーザー情報再取得
+  const fetchUser = async (id: number) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const fetchedUser = await getUserById(id);
+      setUser(fetchedUser);
+      return fetchedUser;
+    } catch (e: any) {
+      setError(e.message || 'ユーザー情報取得に失敗しました');
+      throw e;
+    } finally {
+      setLoading(false);
+    }
   };
 
   return {
-    currentUser,
-    isLoading,
+    user,
+    loading,
     error,
     register,
     login,
-    fetchUser,
     logout,
+    fetchUser,
+    setUser, // 必要に応じて外部からもセット可能
   };
-};
+} 

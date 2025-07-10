@@ -1,12 +1,29 @@
 import { api } from '@/lib/api/axios';
-import { User, CreateUserRequest } from '@/types';
+import { User, RegisterRequest, LoginRequest } from '@/types';
 
-export const getUsers = async (): Promise<User[]> => {
-  const res = await api.get<User[]>('/api/users');
+// ユーザー登録
+export const registerUser = async (req: RegisterRequest): Promise<User> => {
+  const params = new URLSearchParams({
+    email: req.email,
+    password: req.password,
+    displayName: req.displayName,
+  });
+  const res = await api.post<User>(`/api/auth/register?${params.toString()}`);
   return res.data;
 };
 
-export const createUser = async (user: CreateUserRequest): Promise<User> => {
-  const res = await api.post<User>('/api/users', user);
+// ログイン
+export const loginUser = async (req: LoginRequest): Promise<User> => {
+  const params = new URLSearchParams({
+    email: req.email,
+    password: req.password,
+  });
+  const res = await api.post<User>(`/api/auth/login?${params.toString()}`);
+  return res.data;
+};
+
+// ユーザー情報取得
+export const getUserById = async (id: number): Promise<User> => {
+  const res = await api.get<User>(`/api/auth/me/${id}`);
   return res.data;
 };

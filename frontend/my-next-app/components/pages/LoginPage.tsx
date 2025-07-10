@@ -6,15 +6,23 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Zap, Eye, EyeOff, Music, Shield, Cpu } from "lucide-react"
+import { useAuth } from "@/hooks/useAuth"
 
 interface LoginPageProps {
   onLogin: () => void
+  onGoToSignup: () => void
 }
 
-export function LoginPage({ onLogin }: LoginPageProps) {
+export function LoginPage({ onLogin, onGoToSignup }: LoginPageProps) {
   const [showPassword, setShowPassword] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
   const [matrixChars, setMatrixChars] = useState<Array<{ id: number; char: string; left: number; delay: number }>>([])
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  })
+
+  const { login, loading, error } = useAuth()
+  const [localError, setLocalError] = useState<string | null>(null)
 
   // Matrix rain effect
   useEffect(() => {
@@ -29,10 +37,13 @@ export function LoginPage({ onLogin }: LoginPageProps) {
   }, [])
 
   const handleLogin = async () => {
-    setIsLoading(true)
-    // SAO風のログインアニメーション
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-    onLogin()
+    setLocalError(null)
+    try {
+      await login({ email: formData.email, password: formData.password })
+      onLogin()
+    } catch (e: any) {
+      setLocalError(e?.message || "ログインに失敗しました")
+    }
   }
 
   return (
@@ -93,6 +104,8 @@ export function LoginPage({ onLogin }: LoginPageProps) {
                   id="email"
                   type="email"
                   placeholder="Enter your neural ID..."
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   className="sao-input h-12 text-base"
                 />
               </div>
@@ -106,6 +119,8 @@ export function LoginPage({ onLogin }: LoginPageProps) {
                     id="password"
                     type={showPassword ? "text" : "password"}
                     placeholder="Enter access code..."
+                    value={formData.password}
+                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                     className="sao-input h-12 text-base pr-12"
                   />
                   <Button
@@ -120,12 +135,19 @@ export function LoginPage({ onLogin }: LoginPageProps) {
                 </div>
               </div>
 
+              {/* エラー表示 */}
+              {(localError || error) && (
+                <div className="text-red-400 text-sm text-center font-semibold">
+                  {localError || error}
+                </div>
+              )}
+
               <Button
                 onClick={handleLogin}
-                disabled={isLoading}
+                disabled={loading}
                 className="w-full h-12 sao-button text-base font-semibold tracking-wide"
               >
-                {isLoading ? (
+                {loading ? (
                   <div className="flex items-center gap-3">
                     <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                     <span>CONNECTING TO NEURAL NETWORK...</span>
@@ -137,6 +159,18 @@ export function LoginPage({ onLogin }: LoginPageProps) {
                   </div>
                 )}
               </Button>
+
+              {/* Signup Link */}
+              <div className="text-center pt-4 border-t border-sao-cyan-500/20">
+                <p className="text-sao-cyan-300/60 text-sm mb-3">Don't have a neural interface?</p>
+                <Button
+                  variant="outline"
+                  onClick={onGoToSignup}
+                  className="w-full border-sao-purple-500/50 text-sao-purple-300 hover:bg-sao-purple-500/10 hover:border-sao-purple-400/70 transition-all duration-300 bg-transparent"
+                >
+                  CREATE NEW ACCOUNT
+                </Button>
+              </div>
 
               {/* Status Indicators */}
               <div className="grid grid-cols-3 gap-4 pt-4 border-t border-sao-cyan-500/20">

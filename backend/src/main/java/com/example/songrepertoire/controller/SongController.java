@@ -61,7 +61,7 @@ public class SongController {
   private void applyRequestToSong(SongRequest request, Song song) {
     song.setTitle(request.getTitle());
     song.setArtist(request.getArtist());
-    song.setKeyAdjustment(request.getKeyAdjustment());
+    song.setKeyAdjustment(request.getKey());
     song.setScore(request.getScore());
     song.setCategory(request.getCategory());
     song.setMachine(request.getMachine());

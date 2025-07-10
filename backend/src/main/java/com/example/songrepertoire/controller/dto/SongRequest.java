@@ -7,7 +7,7 @@ import java.util.List;
 public class SongRequest {
   private String title;
   private String artist;
-  private Integer keyAdjustment;
+  private Integer key;
   private Integer score;
   private String category;
   private String machine;

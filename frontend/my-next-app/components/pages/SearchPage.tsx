@@ -104,7 +104,11 @@ export function SearchPage({
           </div>
           <div className="space-y-3 max-h-96 overflow-y-auto">
             {searchResults.map((result, index) => (
-              <Card key={index} className="sao-card hover:scale-[1.02] transition-all duration-300 group">
+              <Card
+                key={index}
+                className="sao-card hover:scale-[1.02] transition-all duration-300 group cursor-pointer"
+                onClick={() => onAddFromSearch(result)}
+              >
                 <CardContent className="p-4">
                   <div className="flex items-center gap-4">
                     <div className="w-14 h-14 rounded-lg overflow-hidden border border-sao-cyan-500/30 flex-shrink-0 bg-sao-dark-600/50 flex items-center justify-center relative group">
@@ -127,14 +131,9 @@ export function SearchPage({
                       {result.album && <p className="text-sm text-sao-cyan-500/70 truncate">{result.album}</p>}
                       {result.releaseYear && <p className="text-xs text-sao-cyan-500/60">{result.releaseYear}</p>}
                     </div>
-                    <Button
-                      onClick={() => onAddFromSearch(result)}
-                      size="sm"
-                      className="bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white border border-green-400/50 shadow-lg shadow-green-500/30 hover:shadow-xl hover:shadow-green-500/50 transition-all duration-300 hover:scale-105"
-                    >
-                      <Plus className="w-4 h-4 mr-1" />
-                      ADD
-                    </Button>
+                    <div className="ml-2">
+                      <Plus className="w-5 h-5 text-green-400 group-hover:scale-125 transition-transform duration-200" />
+                    </div>
                   </div>
                 </CardContent>
               </Card>

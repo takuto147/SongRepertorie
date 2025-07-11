@@ -87,13 +87,12 @@ export function SongDetailPage({
                       <Badge
                         key={tag.id}
                         variant="outline"
-                        className={`${
-                          tag.name === "得意曲"
-                            ? "border-green-400 text-green-700 bg-green-50"
-                            : tag.name === "練習中"
-                              ? "border-blue-400 text-blue-700 bg-blue-50"
-                              : "border-amber-400 text-amber-700"
-                        }`}
+                        className={`${tag.name === "得意曲"
+                          ? "border-green-400 text-green-700 bg-green-50"
+                          : tag.name === "練習中"
+                            ? "border-blue-400 text-blue-700 bg-blue-50"
+                            : "border-amber-400 text-amber-700"
+                          }`}
                       >
                         {tag.name}
                       </Badge>
@@ -140,7 +139,15 @@ export function SongDetailPage({
             </div>
           ) : (
             // 編集モード
-            <SongForm song={editingSong} onSave={song ? onSave : onSaveNew} onCancel={onCancel} isEditing={!!song} />
+            <SongForm
+              song={editingSong}
+              onSave={song
+                ? (s) => onSave(s as Song)
+                : (s) => onSaveNew(s as Omit<Song, "id">)
+              }
+              onCancel={onCancel}
+              isEditing={!!song}
+            />
           )}
         </CardContent>
       </Card>

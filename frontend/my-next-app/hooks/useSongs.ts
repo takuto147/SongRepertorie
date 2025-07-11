@@ -6,6 +6,7 @@ import {
   updateSongApi,
   deleteSongApi,
 } from "@/lib/api/songs";
+import axios from "axios";
 
 export function useSongs() {
   const [songs, setSongs] = useState<Song[]>([]);
@@ -37,6 +38,8 @@ export function useSongs() {
       category: song.category,
       machine: song.machine,
       isFavorite: !song.isFavorite,
+      jacket: song.jacket, // 追加
+      memo: song.memo, // 追加
       tagIds: song.tags?.map((t) => t.id) || [],
     };
 
@@ -44,7 +47,7 @@ export function useSongs() {
     setSongs(songs.map((s) => (s.id === songId ? updated : s)));
   };
 
-  const addSong = async (newSong: Song) => {
+  const addSong = async (newSong: Omit<Song, "id">) => {
     const tagIds = newSong.tags.map((tag) => tag.id);
 
     const request: SongRequest = {
@@ -55,6 +58,8 @@ export function useSongs() {
       category: newSong.category,
       machine: newSong.machine,
       isFavorite: newSong.isFavorite,
+      jacket: newSong.jacket, // 追加
+      memo: newSong.memo, // 追加
       tagIds,
     };
 
@@ -74,6 +79,8 @@ export function useSongs() {
       category: updatedSong.category,
       machine: updatedSong.machine,
       isFavorite: updatedSong.isFavorite,
+      jacket: updatedSong.jacket, // 追加
+      memo: updatedSong.memo, // 追加
       tagIds,
     };
 
@@ -96,25 +103,22 @@ export function useSongs() {
     }
 
     try {
-      // 本来は外部APIやサーバへ問い合わせる
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      const mockResults: SearchResult[] = [
-        {
-          title: `${query} - Example1`,
-          artist: "Artist1",
-          album: "Album1",
-          releaseYear: 2000,
-          artwork: null,
+      const res = await axios.get("https://itunes.apple.com/search", {
+        params: {
+          term: query,
+          entity: "song",
+          country: "JP",
+          limit: 20,
         },
-        {
-          title: `${query} - Example2`,
-          artist: "Artist2",
-          album: "Album2",
-          releaseYear: 2010,
-          artwork: null,
-        },
-      ];
-      setSearchResults(mockResults);
+      });
+      const results: SearchResult[] = (res.data.results || []).map((item: any) => ({
+        title: item.trackName || "",
+        artist: item.artistName || "",
+        album: item.collectionName || "",
+        releaseYear: item.releaseDate ? new Date(item.releaseDate).getFullYear() : 0,
+        artwork: item.artworkUrl100 ? item.artworkUrl100.replace('100x100bb', '600x600bb') : null,
+      }));
+      setSearchResults(results);
     } catch (err) {
       console.error("検索失敗:", err);
       setSearchResults([]);

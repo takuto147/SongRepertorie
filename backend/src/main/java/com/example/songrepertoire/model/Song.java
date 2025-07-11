@@ -36,12 +36,14 @@ public class Song {
   @Column
   private Boolean isFavorite;
 
+  @Column
+  private String jacket;
+
+  @Column
+  private String memo;
+
   @ManyToMany
-  @JoinTable(
-    name = "song_tag",
-    joinColumns = @JoinColumn(name = "song_id"),
-    inverseJoinColumns = @JoinColumn(name = "tag_id")
-  )
+  @JoinTable(name = "song_tag", joinColumns = @JoinColumn(name = "song_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
   private List<Tag> tags;
 
   @Column

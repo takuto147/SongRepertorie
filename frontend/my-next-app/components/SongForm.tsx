@@ -192,11 +192,10 @@ export function SongForm({ song, onSave, onCancel, isEditing = false }: SongForm
               variant={formData.tags.includes(tag) ? "default" : "outline"}
               size="sm"
               onClick={() => toggleTag(tag)}
-              className={`text-xs h-9 transition-all duration-300 ${
-                formData.tags.includes(tag)
-                  ? "bg-gradient-to-r from-sao-cyan-600 to-sao-blue-600 text-white border-sao-cyan-400/50 shadow-lg shadow-sao-cyan-500/30"
-                  : "border-sao-cyan-500/30 text-sao-cyan-300 hover:bg-sao-cyan-500/20 hover:border-sao-cyan-400/50"
-              }`}
+              className={`text-xs h-9 transition-all duration-300 ${formData.tags.includes(tag)
+                ? "bg-gradient-to-r from-sao-cyan-600 to-sao-blue-600 text-white border-sao-cyan-400/50 shadow-lg shadow-sao-cyan-500/30"
+                : "border-sao-cyan-500/30 text-sao-cyan-300 hover:bg-sao-cyan-500/20 hover:border-sao-cyan-400/50"
+                }`}
             >
               {tag}
             </Button>

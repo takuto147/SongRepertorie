@@ -6,7 +6,7 @@ export type Song = {
   userid?: number;
   title: string;
   artist: string;
-  key: number ; // キー調整。nullは原曲
+  key: number; // キー調整。nullは原曲
   score: number | null;
   memo: string;
   lyrics?: string;
@@ -94,6 +94,8 @@ export type SongRequest = {
   category: string;
   machine: string;
   isFavorite: boolean;
+  jacket?: string;
+  memo?: string;
   tagIds?: number[];
 };
 

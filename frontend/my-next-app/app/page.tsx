@@ -118,7 +118,7 @@ export default function KaraokeApp() {
             : null
           : updatedSong.score,
     }
-    updateSong(songToSave)
+    updateSong(songToSave.id, songToSave)
     setSelectedSong(songToSave)
     setIsEditMode(false)
     setEditingSong(null)

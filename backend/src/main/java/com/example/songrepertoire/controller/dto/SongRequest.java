@@ -12,5 +12,7 @@ public class SongRequest {
   private String category;
   private String machine;
   private Boolean isFavorite;
+  private String jacket;
+  private String memo;
   private List<Long> tagIds;
 }

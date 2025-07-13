@@ -1,10 +1,10 @@
-# ① Build ステージ（Maven & JDK）
-FROM maven:3.9.10-eclipse-temurin-21-jdk AS build
+# ① Build ステージ（Maven + JDK 21）
+FROM maven:3.9.6-eclipse-temurin-21 AS build
 WORKDIR /app
 COPY . .
 RUN mvn clean package -DskipTests
 
-# ② 実行ステージ（軽量ランタイム）
+# ② 実行ステージ（軽量な JRE 21）
 FROM eclipse-temurin:21-jre
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar

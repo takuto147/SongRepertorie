@@ -17,14 +17,14 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'  # プロジェクトに合わせて調整
+          node-version: '18'
 
       - name: Install dependencies
         run: |
           cd frontend/my-next-app
           npm install --legacy-peer-deps
 
-      - name: Build project
+      - name: Build project (Next.js)
         run: |
           cd frontend/my-next-app
           npm run build
@@ -37,7 +37,12 @@ jobs:
           cd frontend/my-next-app
           vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
 
-      - name: Deploy to Vercel
+      - name: Prebuild with Vercel
+        run: |
+          cd frontend/my-next-app
+          vercel build --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy to Vercel (Prebuilt)
         run: |
           cd frontend/my-next-app
           vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}

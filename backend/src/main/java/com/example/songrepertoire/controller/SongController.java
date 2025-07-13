@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/songs")
-// @CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://song-repertorie.vercel.app")
 public class SongController {
 
   private final SongService songService;

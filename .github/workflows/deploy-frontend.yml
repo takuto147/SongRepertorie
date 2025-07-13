@@ -8,19 +8,29 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v2
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'  # プロジェクトに合わせる
+          node-version: '18'
+
       - name: Install dependencies
-        run: npm install --legacy-peer-deps
-      - name: Build project
-        run: npm run build
+        run: cd frontend/my-next-app && npm install --legacy-peer-deps
+
+      - name: Build project (Next.js)
+        run: cd frontend/my-next-app && npm run build
+
       - name: Install Vercel CLI
         run: npm install -g vercel@latest
+
       - name: Pull Vercel envs
-        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-      - name: Deploy to Vercel
-        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+        run: cd frontend/my-next-app && vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Prebuild with Vercel
+        run: cd frontend/my-next-app && vercel build --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy to Vercel (Prebuilt)
+        run: cd frontend/my-next-app && vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}

@@ -8,7 +8,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin
+// @CrossOrigin
 public class UserController {
 
   private final UserService userService;

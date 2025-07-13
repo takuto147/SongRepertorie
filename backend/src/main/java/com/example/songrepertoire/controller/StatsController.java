@@ -7,7 +7,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/stats")
-@CrossOrigin
+// @CrossOrigin
 public class StatsController {
 
   private final StatsService statsService;

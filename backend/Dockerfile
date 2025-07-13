@@ -1,10 +1,11 @@
-# ビルドステージ
-FROM maven:3.8.3-openjdk-17 AS build
+# ビルドフェーズ
+FROM eclipse-temurin:21-jdk AS build
+WORKDIR /app
 COPY . .
 RUN mvn clean package -DskipTests
 
-# 実行ステージ
-FROM eclipse-temurin:17-jdk
-COPY --from=build /target/*.jar app.jar
+# 実行フェーズ
+FROM eclipse-temurin:21-jre
+COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
 ENTRYPOINT ["java","-jar","/app.jar"]

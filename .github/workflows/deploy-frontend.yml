@@ -11,6 +11,10 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend/my-next-app  # ← ここで共通化！
+
     steps:
       - uses: actions/checkout@v2
 
@@ -20,29 +24,19 @@ jobs:
           node-version: '18'
 
       - name: Install dependencies
-        run: |
-          cd frontend/my-next-app
-          npm install --legacy-peer-deps
+        run: npm install --legacy-peer-deps
 
       - name: Build project (Next.js)
-        run: |
-          cd frontend/my-next-app
-          npm run build
+        run: npm run build
 
       - name: Install Vercel CLI
         run: npm install -g vercel@latest
 
       - name: Pull Vercel envs
-        run: |
-          cd frontend/my-next-app
-          vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Prebuild with Vercel
-        run: |
-          cd frontend/my-next-app
-          vercel build --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy to Vercel (Prebuilt)
-        run: |
-          cd frontend/my-next-app
-          vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}

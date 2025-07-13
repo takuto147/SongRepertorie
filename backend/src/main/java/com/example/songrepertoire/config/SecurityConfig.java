@@ -26,8 +26,9 @@ public class SecurityConfig {
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration config = new CorsConfiguration();
-    config.setAllowedOrigins(List.of("https://song-repertorie.vercel.app")); // フロントのURL
-    config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+    config.setAllowedOrigins(List.of(
+        "https://song-repertorie.vercel.app",
+        "http://localhost:3000")); // 本番とローカル両方許可
     config.setAllowedHeaders(List.of("*"));
     config.setAllowCredentials(true);
 

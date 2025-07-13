@@ -32,7 +32,6 @@ export default function KaraokeApp() {
   const {
     songs,
     searchResults,
-    artistSearchResults,
     isSearching,
     searchHistory,
     toggleFavorite,
@@ -292,7 +291,6 @@ export default function KaraokeApp() {
         return (
           <SearchPage
             searchResults={searchResults}
-            artistSearchResults={artistSearchResults}
             isSearching={isSearching}
             searchHistory={searchHistory}
             onSearch={searchSongs}

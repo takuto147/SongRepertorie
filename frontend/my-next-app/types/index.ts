@@ -45,6 +45,13 @@ export interface SearchResult {
   artwork: string | null;
 }
 
+// アーティスト検索結果
+export interface ArtistSearchResult {
+  artistName: string;
+  artistId: number;
+  artwork?: string | null;
+}
+
 // User 関連
 export interface User {
   id: number;

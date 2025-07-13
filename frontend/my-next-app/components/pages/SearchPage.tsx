@@ -60,6 +60,14 @@ export function SearchPage({
           </div>
         </CardHeader>
         <CardContent className="space-y-4">
+          {/* Search Example */}
+          <div className="text-center">
+            <p className="text-xs text-sao-cyan-400/60">
+              検索例：<span className="text-sao-cyan-300">lemon 米津玄師</span>
+            </p>
+          </div>
+
+
           {/* Search Input */}
           <div className="space-y-3">
             <div className="relative">
@@ -72,6 +80,7 @@ export function SearchPage({
                 onKeyPress={(e) => e.key === "Enter" && handleSearch()}
               />
             </div>
+
             <Button
               onClick={handleSearch}
               disabled={isSearching || !searchQuery.trim()}
@@ -102,7 +111,7 @@ export function SearchPage({
             <h3 className="text-lg font-semibold tracking-wide">SEARCH RESULTS</h3>
             <div className="flex-1 h-px bg-gradient-to-r from-sao-cyan-500/50 to-transparent"></div>
           </div>
-          <div className="space-y-3 max-h-96 overflow-y-auto">
+          <div className="space-y-3 max-h-[calc(100vh-400px)] overflow-y-auto overflow-x-hidden">
             {searchResults.map((result, index) => (
               <Card
                 key={index}

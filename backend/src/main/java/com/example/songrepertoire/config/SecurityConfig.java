@@ -22,7 +22,7 @@ public class SecurityConfig {
         .build();
   }
 
-  // CORSの設定
+  // CORSの設定（プリフライト対応）
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration config = new CorsConfiguration();
@@ -30,6 +30,7 @@ public class SecurityConfig {
         "https://song-repertorie.vercel.app",
         "http://localhost:3000")); // 本番とローカル両方許可
     config.setAllowedHeaders(List.of("*"));
+    config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")); // ← これが重要！
     config.setAllowCredentials(true);
 
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

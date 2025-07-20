@@ -42,7 +42,7 @@
 
 | 検索画面 | 検索結果画面 |
 |------------|------------|
-| <p align="center"><img src="frontend/my-next-app/public/screenshots/search.png" width="300"/></p> | <p align="center"><img src="frontend/my-next-app/public/screenshots/search_result.png" width="300"/></p> |
+| <p align="center"><img src="frontend/my-next-app/public/screenshots/search.png" width="300"/></p> | <p align="center"><img src="frontend/my-next-app/public/screenshots/random.png" width="300"/></p> |
 | 曲名やアーティスト名で検索することが可能。<br>"TRENDING SONGS"はそれっぽく表示しているだけで曲名は固定。 |曲を選択するとその曲をもとにした登録画面が表示される。　|
 
 

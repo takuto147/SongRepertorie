@@ -35,12 +35,18 @@
 
 ## 🖼️ スクリーンショット
 
-### ホーム画面
+<!-- ### ホーム画面
 ![home](frontend/my-next-app/public/screenshots/home.png)
 
 ### 登録フォーム
-![form](frontend/my-next-app/public/screenshots/signin.png)
+![form](frontend/my-next-app/public/screenshots/signin.png) -->
 
+
+
+| ホーム画面 | 曲登録フォーム |
+|------------|----------------|
+| <img src="frontend/my-next-app/public/screenshots/home.png" width="300"/> | <img src="frontend/my-next-app/public/screenshots/signin.png" width="300"/> |
+| 登録済みの曲の一覧を表示し、タグ・キー・スコアなどを確認できます。 | 新しい曲の情報を入力して登録できます。カテゴリ・タグも設定可能です。 |
 ---
 
 ## 🏗️ 使用技術

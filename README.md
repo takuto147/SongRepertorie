@@ -36,10 +36,10 @@
 ## 🖼️ スクリーンショット
 
 ### ホーム画面
-![home](frontend\my-next-app\public\screenshots\home.png)
+![home](frontend/my-next-app/public/screenshots/home.png)
 
 ### 登録フォーム
-![form](frontend\my-next-app\public\screenshots\signin.png)
+![form](frontend/my-next-app/public/screenshots/signin.png)
 
 ---
 

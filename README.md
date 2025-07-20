@@ -35,8 +35,6 @@
 
 ## 🖼️ スクリーンショット
 
-<h2>🖼️ スクリーンショット</h2>
-
 <div align="center">
   <table>
     <tr>
@@ -47,7 +45,7 @@
           "USER ID"：メールアドレス<br>
           "ACCESS CODE"：パスワード<br>
           ("CREATE NEW ACCOUNT"以下は特に機能なし)<br>
-          <br> <!-- 高さ調整 -->
+          <br><br> <!-- 高さ調整 -->
         </p>
       </td>
       <td width="50%" align="center">
@@ -56,6 +54,7 @@
         <p style="font-size: 14px;">
           登録済みの曲の一覧・サマリを表示<br>
           フィルター/ソート/検索機能有り<br>
+          <br><br><br> <!-- 高さ調整 -->
         </p>
       </td>
     </tr>
@@ -66,21 +65,21 @@
         <p style="font-size: 14px;">
           曲名やアーティスト名で検索が可能<br>
           ("TRENDING SONGS"は固定の曲名)<br>
-          <br> <!-- 高さ調整 -->
+          <br><br> <!-- 高さ調整 -->
         </p>
       </td>
       <td width="50%" align="center">
         <h4>検索結果画面</h4>
         <img src="frontend/my-next-app/public/screenshots/search_result.png" width="300" /><br>
-        <br><br> <!-- 高さ調整 -->
         <p style="font-size: 14px;">
           曲を選択するとその曲をもとにした登録画面が表示<br>
-        <br><br> <!-- 高さ調整 -->
+          <br><br><br> <!-- 高さ調整 -->
         </p>
       </td>
     </tr>
   </table>
 </div>
+
 
 
 

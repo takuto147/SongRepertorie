@@ -72,7 +72,7 @@
         <h4>検索結果画面</h4>
         <img src="frontend/my-next-app/public/screenshots/search_result.png" width="300" /><br>
         <p style="font-size: 14px;">
-          曲を選択するとその曲をもとにした登録画面が表示<br>
+          曲を選択すると登録画面が表示<br>
           <br><br><br> <!-- 高さ調整 -->
         </p>
       </td>

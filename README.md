@@ -44,7 +44,7 @@
         <p style="font-size: 14px;">
           "USER ID"：メールアドレス<br>
           "ACCESS CODE"：パスワード<br>
-          ("CREATE NEW ACCOUNT"以下は特に機能なし)<br>
+          ("CREATE NEW ACCOUNT"以下は機能なし)<br>
           <br><br> <!-- 高さ調整 -->
         </p>
       </td>

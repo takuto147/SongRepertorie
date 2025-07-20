@@ -45,7 +45,8 @@
         <img src="frontend/my-next-app/public/screenshots/signin.png" width="300" /><br>
         <p style="font-size: 14px;">
           "USER ID"にはメールアドレス、"ACCESS CODE"にはパスワードを入力。<br>
-          ("CREATE NEW ACCOUNT"以下は特に機能なし)
+          ("CREATE NEW ACCOUNT"以下は特に機能なし)<br>
+          <br> <!-- 高さ調整 -->
         </p>
       </td>
       <td width="50%" align="center">
@@ -53,7 +54,7 @@
         <img src="frontend/my-next-app/public/screenshots/home.png" width="300" /><br>
         <p style="font-size: 14px;">
           登録済みの曲の一覧を表示し、タグ・キー・スコアなどを確認できる。<br>
-          フィルター/ソート/検索機能で欲しい曲データのみを表示させることが可能。
+          フィルター/ソート/検索機能で欲しい曲データのみを表示させることが可能。<br>
         </p>
       </td>
     </tr>
@@ -63,14 +64,16 @@
         <img src="frontend/my-next-app/public/screenshots/search.png" width="300" /><br>
         <p style="font-size: 14px;">
           曲名やアーティスト名で検索することが可能。<br>
-          "TRENDING SONGS"はそれっぽく表示しているだけで曲名は固定。
+          "TRENDING SONGS"はそれっぽく表示しているだけで曲名は固定。<br>
+          <br> <!-- 高さ調整 -->
         </p>
       </td>
       <td width="50%" align="center">
         <h4>検索結果画面</h4>
         <img src="frontend/my-next-app/public/screenshots/search_result.png" width="300" /><br>
         <p style="font-size: 14px;">
-          曲を選択するとその曲をもとにした登録画面が表示される。
+          曲を選択するとその曲をもとにした登録画面が表示される。<br>
+          <br><br> <!-- 高さ調整 -->
         </p>
       </td>
     </tr>

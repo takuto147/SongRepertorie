@@ -38,7 +38,10 @@
 | サインイン画面 | ホーム画面 |
 |----------------|------------|
 | <p align="center"><img src="frontend/my-next-app/public/screenshots/signin.png" width="300"/></p> | <p align="center"><img src="frontend/my-next-app/public/screenshots/home.png" width="300"/></p> |
-| サインイン画面。"USER ID"にはメールアドレス、"ACCESS CODE"にはパスワードを入力。("CREATE NEW ACCOUNT"以下は特に機能なし。) | 登録済みの曲の一覧を表示し、タグ・キー・スコアなどを確認できる。フィルター/ソート/検索機能で欲しい曲データのみを表示させることが可能。　|
+| サインイン画面。"USER ID"にはメールアドレス、"ACCESS CODE"にはパスワードを入力。
+("CREATE NEW ACCOUNT"以下は特に機能なし。) | 登録済みの曲の一覧を表示し、タグ・キー・スコアなどを確認できる。フィルター/ソート/検索機能で欲しい曲データのみを表示させることが可能。　|
+|----------------|------------|
+
 
 ---
 

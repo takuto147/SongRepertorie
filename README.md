@@ -45,7 +45,7 @@
           "USER ID"：メールアドレス<br>
           "ACCESS CODE"：パスワード<br>
           サインアップはCREATE NEW ACCOUNTから<br>
-          <br><br> <!-- 高さ調整 -->
+          <br> <!-- 高さ調整 -->
         </p>
       </td>
       <td width="50%" align="center">
@@ -54,7 +54,7 @@
         <p style="font-size: 14px;">
           登録済みの曲の一覧・サマリを表示<br>
           フィルター/ソート/検索機能有り<br>
-          <br><br><br> <!-- 高さ調整 -->
+          <br> <!-- 高さ調整 -->
         </p>
       </td>
     </tr>
@@ -79,6 +79,7 @@
     </tr>
   </table>
 </div>
+
 
 
 

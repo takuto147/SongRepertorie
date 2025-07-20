@@ -41,8 +41,8 @@
 |"USER ID"にはメールアドレス、"ACCESS CODE"にはパスワードを入力。<br>("CREATE NEW ACCOUNT"以下は特に機能なし) |登録済みの曲の一覧を表示し、タグ・キー・スコアなどを確認できる。<br>フィルター/ソート/検索機能で欲しい曲データのみを表示させることが可能。　|
 
 | 検索画面 | 検索結果画面 |
-|-----|------------|
-| <p align="center"><img src="frontend/my-next-app/public/screenshots/search.png" width="300"/></p> | <p align="center"><img src="frontend/my-next-app/public/screenshots/search_result.png" width="300"/></p> |
+|:-----:|:------------:|
+| <img src="frontend/my-next-app/public/screenshots/search.png" width="300"/>| <img src="frontend/my-next-app/public/screenshots/search_result.png" width="300"/>|
 | 曲名やアーティスト名で検索することが可能。<br>"TRENDING SONGS"はそれっぽく表示しているだけで曲名は固定。 |曲を選択するとその曲をもとにした登録画面が表示される。　|
 
 

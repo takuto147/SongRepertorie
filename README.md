@@ -79,6 +79,29 @@
         </p>
       </td>
     </tr>
+        <tr>
+      <td width="50%" align="center">
+        <h4>ランダム画面</h4>
+        <img src="frontend/my-next-app/public/screenshots/random.png" width="300" /><br>
+        <p style="font-size: 14px;">
+          "TARGET FILTER"<br>
+          でタグを指定可能<br>
+          指定タグの中から<br>
+          ランダムで曲を1曲表示
+        </p>
+      </td>
+      <td width="50%" align="center">
+        <h4>ランダム結果画面</h4>
+        <img src="frontend/my-next-app/public/screenshots/random_result.png" width="300" /><br>
+        <p style="font-size: 14px;">
+          歌う曲が思いつかないときに<br>
+          オススメ！<br>
+          <br> <!-- 高さ調整 -->
+          <br> <!-- 高さ調整 -->
+        </p>
+      </td>
+    </tr>
+
   </table>
 </div>
 

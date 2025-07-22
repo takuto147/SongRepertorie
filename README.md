@@ -59,26 +59,26 @@
         </p>
       </td>
     </tr>
-    <tr>
-      <td width="50%" align="center">
-        <h4>登録フォーム</h4>
-        <img src="frontend/my-next-app/public/screenshots/add.png" width="300" /><br>
-        <p style="font-size: 14px;">
-          キーやカテゴリなどを記載可能<br>
-          検索からの追加、手動での追加にも対応<br>
-          <br> <!-- 高さ調整 -->
-        </p>
-      </td>
-      <td width="50%" align="center">
-        <h4>統計画面</h4>
-        <img src="frontend/my-next-app/public/screenshots/stats.png" width="300" /><br>
-        <p style="font-size: 14px;">
-          登録されている曲の<br>
-          各種統計データを閲覧可能<br>
-          <br> <!-- 高さ調整 -->
-        </p>
-      </td>
-    </tr>
+<tr>
+<td width="50%" align="center">
+  <h4>登録フォーム</h4>
+  <img src="frontend/my-next-app/public/screenshots/add.png" width="300" height="500" style="object-fit: contain;" /><br>
+  <p style="font-size: 14px;">
+    キーやカテゴリなどを記載可能<br>
+    検索からの追加、手動での追加にも対応<br>
+    <br><br> <!-- 高さ調整 -->
+  </p>
+</td>
+<td width="50%" align="center">
+  <h4>統計画面</h4>
+  <img src="frontend/my-next-app/public/screenshots/stats.png" width="300" height="500" style="object-fit: contain;" /><br>
+  <p style="font-size: 14px;">
+    登録されている曲の<br>
+    各種統計データを閲覧可能<br>
+    <br><br> <!-- 高さ調整 -->
+  </p>
+</td>
+</tr>
   </table>
 </div>
 

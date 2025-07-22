@@ -115,3 +115,15 @@ SongRepertorie/
 ├── backend/           # Spring Boot (APIサーバー)
 └── frontend/          
     └── my-next-app/   # Next.js + Tailwind CSS (UI)
+```
+---
+
+## 🪛 ローカル環境での立ち上げ
+
+# バックエンド
+- cd backend 
+- .\mvnw.cmd spring-boot:run
+
+# フロントエンド
+- cd frontend/my-next-app
+- npm run dev

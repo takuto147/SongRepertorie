@@ -120,10 +120,10 @@ SongRepertorie/
 
 ## 🪛 ローカル環境での立ち上げ
 
-# バックエンド
+### バックエンド
 - cd backend 
 - .\mvnw.cmd spring-boot:run
 
-# フロントエンド
+### フロントエンド
 - cd frontend/my-next-app
 - npm run dev

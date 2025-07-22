@@ -61,47 +61,24 @@
     </tr>
     <tr>
       <td width="50%" align="center">
-        <h4>検索画面</h4>
-        <img src="frontend/my-next-app/public/screenshots/search.png" width="300" /><br>
+        <h4>登録フォーム</h4>
+        <img src="frontend/my-next-app/public/screenshots/add.png" width="300" /><br>
         <p style="font-size: 14px;">
-          曲名やアーティスト名で検索が可能<br>
-          （"TRENDING SONGS"は<br>
-          固定の曲名を表示）<br>
+          キーやカテゴリなどを記載可能<br>
+          検索からの追加、手動での追加にも対応<br>
+          <br> <!-- 高さ調整 -->
         </p>
       </td>
       <td width="50%" align="center">
-        <h4>検索結果画面</h4>
-        <img src="frontend/my-next-app/public/screenshots/search_result.png" width="300" /><br>
+        <h4>統計画面</h4>
+        <img src="frontend/my-next-app/public/screenshots/stats.png" width="300" /><br>
         <p style="font-size: 14px;">
-          曲を選択すると<br>
-          登録画面が表示される<br>
+          登録されている曲の<br>
+          各種統計データを閲覧可能<br>
           <br> <!-- 高さ調整 -->
         </p>
       </td>
     </tr>
-        <tr>
-      <td width="50%" align="center">
-        <h4>ランダム画面</h4>
-        <img src="frontend/my-next-app/public/screenshots/random.png" width="300" /><br>
-        <p style="font-size: 14px;">
-          "TARGET FILTER"<br>
-          でタグを指定可能<br>
-          指定タグの中から<br>
-          ランダムで曲を1曲表示
-        </p>
-      </td>
-      <td width="50%" align="center">
-        <h4>ランダム結果画面</h4>
-        <img src="frontend/my-next-app/public/screenshots/random_result.png" width="300" /><br>
-        <p style="font-size: 14px;">
-          歌う曲が思いつかないときに<br>
-          オススメ！<br>
-          <br> <!-- 高さ調整 -->
-          <br> <!-- 高さ調整 -->
-        </p>
-      </td>
-    </tr>
-
   </table>
 </div>
 

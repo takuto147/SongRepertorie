@@ -35,6 +35,7 @@
 
 ## 🖼️ スクリーンショット
 <details>
+<summary><strong>▶️ 全スクリーンショットはこちら</strong></summary>
 <div align="center">
   <table>
     <tr>

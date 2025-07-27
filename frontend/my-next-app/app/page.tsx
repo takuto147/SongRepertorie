@@ -13,6 +13,7 @@ import { Header } from "@/components/Header"
 import { BottomNavigation } from "@/components/BottomNavigation"
 import { useSongs } from "@/hooks/useSongs"
 import type { Song, SearchResult } from "@/types"
+import GlobalHeader from "@/components/GlobalHeader"
 
 type AuthView = "login" | "signup"
 
@@ -310,6 +311,7 @@ export default function KaraokeApp() {
   // メインアプリケーション画面
   return (
     <div className="min-h-screen bg-gradient-to-br from-sao-dark-900 via-sao-dark-800 to-sao-dark-700 relative overflow-hidden">
+      <GlobalHeader onLogout={handleLogout} />
       {/* Matrix Background */}
       <div className="animate-matrix-bg">
         {matrixChars.map((char) => (

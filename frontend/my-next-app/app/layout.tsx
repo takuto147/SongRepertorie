@@ -13,7 +13,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="icon"  href="/レコードプレーヤー3.svg" />
+        <link rel="icon" href="/レコードプレーヤー3.svg" />
       </head>
       <body>{children}</body>
     </html>

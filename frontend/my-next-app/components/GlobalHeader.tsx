@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button"
 
 export default function GlobalHeader({ onLogout }: { onLogout: () => void }) {
   const handleClick = () => {
-    console.log('サインアウトボタンが押されました');
     onLogout();
   };
   return (

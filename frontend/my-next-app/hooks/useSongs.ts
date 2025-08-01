@@ -79,8 +79,8 @@ export function useSongs() {
       category: updatedSong.category,
       machine: updatedSong.machine,
       isFavorite: updatedSong.isFavorite,
-      jacket: updatedSong.jacket, // 追加
-      memo: updatedSong.memo, // 追加
+      jacket: updatedSong.jacket,
+      memo: updatedSong.memo,
       tagIds,
     };
 

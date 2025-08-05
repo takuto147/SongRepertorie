@@ -24,7 +24,7 @@ export function LoginPage({ onLogin, onGoToSignup }: LoginPageProps) {
   const { login, loading, error } = useAuth()
   const [localError, setLocalError] = useState<string | null>(null)
 
-  // Matrix rain effect
+  // マトリックス風エフェクトの作成
   useEffect(() => {
     const chars = "01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン"
     const newMatrixChars = Array.from({ length: 50 }, (_, i) => ({

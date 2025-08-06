@@ -2,8 +2,7 @@
 
 import type React from "react"
 import { useState, useEffect } from "react"
-import { LoginPage } from "@/components/pages/LoginPage"
-import { SignupPage } from "@/components/pages/SignupPage"
+import { useRouter } from "next/navigation"
 import { SongListPage } from "@/components/pages/SongListPage"
 import { SearchPage } from "@/components/pages/SearchPage"
 import { RandomPage } from "@/components/pages/RandomPage"
@@ -12,16 +11,14 @@ import { SongDetailPage } from "@/components/pages/SongDetailPage"
 import { Header } from "@/components/Header"
 import { BottomNavigation } from "@/components/BottomNavigation"
 import { useSongs } from "@/hooks/useSongs"
+import { useAuth } from "@/hooks/useAuth"
 import type { Song, SearchResult } from "@/types"
 import GlobalHeader from "@/components/GlobalHeader"
 
-type AuthView = "login" | "signup"
-
 export default function KaraokeApp() {
-  // 認証状態管理
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [authView, setAuthView] = useState<AuthView>("login")
-  const [isLoading, setIsLoading] = useState(true)
+  const router = useRouter()
+  const { user, logout, loading } = useAuth()
+  const isLoggedIn = !!user
 
   // アプリケーション状態
   const [activeTab, setActiveTab] = useState("songs")
@@ -43,21 +40,12 @@ export default function KaraokeApp() {
     clearSearchHistory,
   } = useSongs()
 
-  // 認証状態の初期化
+  // 認証状態をチェックしてリダイレクト
   useEffect(() => {
-    const savedAuthState = localStorage.getItem('songRepertoire_auth')
-    if (savedAuthState) {
-      try {
-        const authData = JSON.parse(savedAuthState)
-        setIsLoggedIn(authData.isLoggedIn || false)
-        setAuthView(authData.authView || "login")
-      } catch (error) {
-        console.error('認証状態の読み込みに失敗しました:', error)
-        localStorage.removeItem('songRepertoire_auth')
-      }
+    if (!loading && !isLoggedIn) {
+      router.push('/login')
     }
-    setIsLoading(false)
-  }, [])
+  }, [isLoggedIn, loading, router])
 
   // Matrix background effect
   useEffect(() => {
@@ -73,41 +61,13 @@ export default function KaraokeApp() {
     }
   }, [isLoggedIn])
 
-  // 認証状態を保存する関数
-  const saveAuthState = (isLoggedIn: boolean, authView: AuthView) => {
-    const authData = { isLoggedIn, authView }
-    localStorage.setItem('songRepertoire_auth', JSON.stringify(authData))
-  }
-
-  // 認証処理
-  const handleLogin = () => {
-    setIsLoggedIn(true)
-    setAuthView("login")
-    saveAuthState(true, "login")
-  }
-
-  const handleSignup = () => {
-    setIsLoggedIn(true)
-    setAuthView("login")
-    saveAuthState(true, "login")
-  }
-
   const handleLogout = () => {
-    setIsLoggedIn(false)
-    setAuthView("login")
+    logout()
     setActiveTab("songs")
     setSelectedSong(null)
     setIsEditMode(false)
     setEditingSong(null)
-    localStorage.removeItem('songRepertoire_auth')
-  }
-
-  const handleGoToSignup = () => {
-    setAuthView("signup")
-  }
-
-  const handleBackToLogin = () => {
-    setAuthView("login")
+    router.push('/login')
   }
 
   // 楽曲選択処理
@@ -216,21 +176,13 @@ export default function KaraokeApp() {
     setEditingSong(null)
   }
 
-  // ローディング中
-  if (isLoading) {
+  // ローディング中または認証されていない場合は何も表示しない
+  if (loading || !isLoggedIn) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-sao-dark-900 via-sao-dark-800 to-sao-dark-700 flex items-center justify-center">
         <div className="text-sao-cyan-300 text-lg">LOADING...</div>
       </div>
     )
-  }
-
-  // 認証画面
-  if (!isLoggedIn) {
-    if (authView === "signup") {
-      return <SignupPage onSignup={handleSignup} onBackToLogin={handleBackToLogin} />
-    }
-    return <LoginPage onLogin={handleLogin} onGoToSignup={handleGoToSignup} />
   }
 
   // 楽曲詳細・編集画面

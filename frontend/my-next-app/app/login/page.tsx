@@ -7,13 +7,9 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Zap, Eye, EyeOff, Music, Shield, Cpu } from "lucide-react"
 import { useAuth } from "@/hooks/useAuth"
+import { useRouter } from "next/navigation"
 
-interface LoginPageProps {
-  onLogin: () => void
-  onGoToSignup: () => void
-}
-
-export function LoginPage({ onLogin, onGoToSignup }: LoginPageProps) {
+export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [matrixChars, setMatrixChars] = useState<Array<{ id: number; char: string; left: number; delay: number }>>([])
   const [formData, setFormData] = useState({
@@ -23,6 +19,7 @@ export function LoginPage({ onLogin, onGoToSignup }: LoginPageProps) {
 
   const { login, loading, error } = useAuth()
   const [localError, setLocalError] = useState<string | null>(null)
+  const router = useRouter()
 
   // マトリックス風エフェクトの作成 
   useEffect(() => {
@@ -40,10 +37,15 @@ export function LoginPage({ onLogin, onGoToSignup }: LoginPageProps) {
     setLocalError(null)
     try {
       await login({ email: formData.email, password: formData.password })
-      onLogin()
+      // ログイン成功後、メインページにリダイレクト
+      router.push("/")
     } catch (e: any) {
       setLocalError(e?.message || "ログインに失敗しました")
     }
+  }
+
+  const handleGoToSignup = () => {
+    router.push("/signup")
   }
 
   return (
@@ -165,7 +167,7 @@ export function LoginPage({ onLogin, onGoToSignup }: LoginPageProps) {
                 <p className="text-sao-cyan-300/60 text-sm mb-3">Don't have a neural interface?</p>
                 <Button
                   variant="outline"
-                  onClick={onGoToSignup}
+                  onClick={handleGoToSignup}
                   className="w-full border-sao-purple-500/50 text-sao-purple-300 hover:bg-sao-purple-500/10 hover:border-sao-purple-400/70 transition-all duration-300 bg-transparent"
                 >
                   CREATE NEW ACCOUNT
@@ -199,4 +201,4 @@ export function LoginPage({ onLogin, onGoToSignup }: LoginPageProps) {
       </div>
     </div>
   )
-}
+} 

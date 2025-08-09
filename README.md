@@ -99,7 +99,7 @@
 - Java / Spring Boot
 - Spring Data JPA
 - REST API設計
-- postgreSQL
+- postgreSQL / MySQL
 
 ### その他
 - Git / GitHub

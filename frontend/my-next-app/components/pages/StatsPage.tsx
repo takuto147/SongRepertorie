@@ -21,18 +21,21 @@ export function StatsPage({ songs }: StatsPageProps) {
         )
       : 0
 
+  // アーティストごとの曲数をカウント
   const artistCounts = songs.reduce(
     (acc, song) => {
-      acc[song.artist] = (acc[song.artist] || 0) + 1
+      acc[song.artist] = (acc[song.artist] || 0) + 1 //accは
       return acc
     },
     {} as Record<string, number>,
   )
 
+  // アーティストごとの曲数をソートして上位5件を取得
   const topArtists = Object.entries(artistCounts)
     .sort(([, a], [, b]) => b - a)
     .slice(0, 5)
 
+  // カテゴリごとの曲数をカウント
   const categoryCounts = songs.reduce(
     (acc, song) => {
       acc[song.category] = (acc[song.category] || 0) + 1
@@ -41,14 +44,16 @@ export function StatsPage({ songs }: StatsPageProps) {
     {} as Record<string, number>,
   )
 
+  // カテゴリごとの曲数をソートして上位3件を取得
   const topCategories = Object.entries(categoryCounts)
     .sort(([, a], [, b]) => b - a)
     .slice(0, 3)
 
+  // 85点以上の曲をソートして上位3件を取得
   const highScoreSongs = songs
     .filter((s) => s.score && s.score >= 85)
     .sort((a, b) => (b.score || 0) - (a.score || 0))
-    .slice(0, 3)
+    .slice(0, 5)
 
   return (
     <div className="space-y-6">

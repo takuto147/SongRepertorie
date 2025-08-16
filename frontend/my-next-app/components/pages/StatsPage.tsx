@@ -35,7 +35,8 @@ export function StatsPage({ songs }: StatsPageProps) {
     .sort(([, a], [, b]) => b - a)
     .slice(0, 5)
 
-  // カテゴリごとの曲数をカウント 
+  // カテゴリごとの曲数をカウント
+  
   const categoryCounts = songs.reduce(
     (acc, song) => {
       acc[song.category] = (acc[song.category] || 0) + 1

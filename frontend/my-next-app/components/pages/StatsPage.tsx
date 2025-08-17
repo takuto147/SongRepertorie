@@ -46,6 +46,7 @@ export function StatsPage({ songs }: StatsPageProps) {
   )
 
   // カテゴリごとの曲数をソートして上位3件を取得
+  
   const topCategories = Object.entries(categoryCounts)
     .sort(([, a], [, b]) => b - a)
     .slice(0, 3)

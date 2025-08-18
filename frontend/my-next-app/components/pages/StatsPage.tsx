@@ -52,6 +52,7 @@ export function StatsPage({ songs }: StatsPageProps) {
     .slice(0, 3)
 
   // 85点以上の曲をソートして上位3件を取得
+  
   const highScoreSongs = songs
     .filter((s) => s.score && s.score >= 85)
     .sort((a, b) => (b.score || 0) - (a.score || 0))

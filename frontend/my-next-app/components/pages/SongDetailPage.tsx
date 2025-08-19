@@ -139,6 +139,7 @@ export function SongDetailPage({
             </div>
           ) : (
             // 編集モード
+            
             <SongForm
               song={editingSong}
               onSave={song
